@@ -1,0 +1,7 @@
+Supplier,Audit Date,Question ID,Question,Evaluation,Comments
+Electronics Plus Ltd,2024-06-20,4.1.1,Quality manual,מהותי,Quality manual revision not approved
+Electronics Plus Ltd,2024-06-20,5.2.1,Calibration,מהותי,Two gauges overdue for calibration
+Electronics Plus Ltd,2024-06-20,6.1.2,ESD control,מינורי,ESD wrist straps not tested daily
+Electronics Plus Ltd,2024-06-20,7.2.1,Inspection records,מתאים,
+Electronics Plus Ltd,2024-06-20,8.1.1,Traceability,לא מתאים,Lot traceability gap in shipping area
+Electronics Plus Ltd,2024-06-20,8.4.1,Supplier flow-down,מינורי,AS9100 requirements not flowed to sub-tier

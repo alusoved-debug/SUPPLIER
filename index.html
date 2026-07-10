@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דשבורד מבדקי הסמכה | ספקים</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Welcome / upload -->
+  <section id="sectionUpload" class="welcome-screen">
+    <div class="welcome-inner">
+      <div class="welcome-brand">
+        <div class="brand-icon">📊</div>
+        <h1>דשבורד <span>מבדקי הסמכה</span></h1>
+        <p>ניתוח, השוואה ודירוג ספקים · Excel · CSV · Word · PDF</p>
+      </div>
+
+      <div class="up-zone" id="dropZone">
+        <div class="up-icon">📁</div>
+        <p class="up-title">בחר תיקייה עם קבצי מבדק</p>
+        <p class="up-sub">גרור תיקייה לכאן, או לחץ לבחירה<br>לדוגמה: התיקייה <strong>דוחות ממצאים</strong></p>
+        <div class="up-actions">
+          <button type="button" class="btn-primary" id="btnPickFolder">בחר תיקייה</button>
+          <label class="btn-secondary">
+            בחר קבצים
+            <input type="file" id="fileInputFallback" multiple accept=".xlsx,.xls,.csv,.docx,.pdf" hidden>
+          </label>
+          <label class="btn-secondary">
+            בחר תיקייה (fallback)
+            <input type="file" id="folderInputFallback" webkitdirectory hidden>
+          </label>
+        </div>
+      </div>
+
+      <div id="settingsPanel" class="settings-panel hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBase" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajor" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinor" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellent" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGood" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverage" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettings">שמור הגדרות</button>
+      </div>
+
+      <div id="fileListWrap" class="file-list-wrap hidden">
+        <h3>קבצים שנמצאו</h3>
+        <ul id="fileList" class="file-list"></ul>
+        <button type="button" class="btn-primary" id="btnAnalyze">הרץ ניתוח</button>
+      </div>
+
+      <div id="parseErrorWrap" class="parse-error-wrap hidden">
+        <h3>⚠ לא נמצאו ממצאים</h3>
+        <p class="parse-error-hint">בדוק את לשונית "קבצים" לפרטים, או ודא שיש עמודות הערכה (מתאים / מינורי / מהותי).</p>
+        <ul id="parseErrorLog" class="parse-log"></ul>
+      </div>
+
+      <button type="button" class="btn-ghost btn-settings-welcome" id="btnSettings">⚙ הגדרות ציון</button>
+    </div>
+  </section>
+
+  <!-- Dashboard app -->
+  <div id="sectionApp" class="dashboard hidden">
+
+    <div class="app-header">
+    <header class="topbar">
+      <div class="topbar-start">
+        <span class="brand-dot"></span>
+        <div>
+          <h2 class="page-title" id="pageTitle">דשבורד</h2>
+          <p class="page-sub"><span id="appMeta">—</span> · <span id="pageSub">סקירה כללית של כל הספקים</span></p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn-secondary btn-sm" id="btnPrint">הדפס</button>
+        <button type="button" class="btn-secondary btn-sm" id="btnExportHtml">ייצוא HTML</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnSettingsApp" title="הגדרות">⚙</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnReset">↩ תיקייה חדשה</button>
+      </div>
+    </header>
+
+    <nav class="nav-panel" role="navigation" aria-label="ניווט מסכים">
+      <button type="button" class="nav-btn active" data-tab="dashboard">◉ דשבורד</button>
+      <button type="button" class="nav-btn" data-tab="detail">☰ פרוט ספקים</button>
+      <button type="button" class="nav-btn" data-tab="compare">⇅ טבלת השוואה</button>
+      <button type="button" class="nav-btn" data-tab="summary">✦ סיכום מנהלים</button>
+      <button type="button" class="nav-btn" data-tab="files">📄 קבצים</button>
+    </nav>
+    </div>
+
+    <div id="settingsPanelApp" class="settings-panel settings-inline hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBaseApp" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajorApp" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinorApp" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellentApp" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGoodApp" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverageApp" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettingsApp">שמור וחשב מחדש</button>
+      </div>
+
+      <main class="dashboard-content">
+
+        <!-- Dashboard overview -->
+        <div id="tabDashboard" class="view-pane active">
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <div class="dash-grid">
+            <div class="dash-card dash-card-wide">
+              <div class="card-hdr">
+                <h3>דירוג ספקים</h3>
+                <span class="card-hint">לפי ציון</span>
+              </div>
+              <div class="rank-list" id="rankList"></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>פילוח בעיות</h3></div>
+              <div class="ch-box"><canvas id="chartCategories"></canvas></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>התפלגות דירוגים</h3></div>
+              <div class="ch-box"><canvas id="chartRatings"></canvas></div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-hdr">
+              <h3>טבלת השוואה</h3>
+              <button type="button" class="link-btn" data-goto="compare">הצג מלא ←</button>
+            </div>
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTableDash">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supplier detail -->
+        <div id="tabDetail" class="view-pane">
+          <div id="supplierCards" class="supplier-cards"></div>
+        </div>
+
+        <!-- Full compare -->
+        <div id="tabCompare" class="view-pane">
+          <div class="kpi-grid" id="kpiGridCompare"></div>
+          <div class="dash-card">
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTable">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>תאריך מבדק</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>סה"כ</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                    <th>קובץ</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive summary -->
+        <div id="tabSummary" class="view-pane">
+          <div id="executiveReport" class="executive-report"></div>
+        </div>
+
+        <!-- Files log -->
+        <div id="tabFiles" class="view-pane">
+          <div class="dash-card">
+            <div class="card-hdr"><h3>יומן ניתוח קבצים</h3></div>
+            <ul id="parseLog" class="parse-log"></ul>
+          </div>
+        </div>
+
+      </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

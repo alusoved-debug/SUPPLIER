@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+
+# Real audit reports — keep locally, not in repo
+דוחות ממצאים/
