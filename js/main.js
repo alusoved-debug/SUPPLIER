@@ -258,13 +258,15 @@ function syncSettingsForm(cfg) {
 }
 
 function readSettingsFromForm() {
+  const appMode = !document.getElementById('sectionApp').classList.contains('hidden');
+  const id = (base) => appMode ? `${base}App` : base;
   return {
-    baseScore: numVal('cfgBase', 100),
-    majorPenalty: numVal('cfgMajor', 10),
-    minorPenalty: numVal('cfgMinor', 3),
-    excellentMin: numVal('cfgExcellent', 90),
-    goodMin: numVal('cfgGood', 75),
-    averageMin: numVal('cfgAverage', 55),
+    baseScore: numVal(id('cfgBase'), 100),
+    majorPenalty: numVal(id('cfgMajor'), 10),
+    minorPenalty: numVal(id('cfgMinor'), 3),
+    excellentMin: numVal(id('cfgExcellent'), 90),
+    goodMin: numVal(id('cfgGood'), 75),
+    averageMin: numVal(id('cfgAverage'), 55),
   };
 }
 

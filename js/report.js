@@ -90,13 +90,13 @@ export function renderExecutiveHtml(report) {
 
   html += '<h3>סיכום כללי</h3>';
   for (const p of report.paragraphs) {
-    html += `<p>${escapeHtml(p)}</p>`;
+    html += `<p>${htmlEscape(p)}</p>`;
   }
 
   if (report.crossCutting.length) {
     html += '<h3>בעיות מרכזיות חוצות-ספקים</h3><ul>';
     for (const c of report.crossCutting) {
-      html += `<li><strong>${escapeHtml(c.category)}</strong>: ${c.count} ממצאי Major אצל ${c.supplierCount} ספקים (${escapeHtml(c.suppliers.join(', '))})</li>`;
+      html += `<li><strong>${htmlEscape(c.category)}</strong>: ${c.count} ממצאי Major אצל ${c.supplierCount} ספקים (${htmlEscape(c.suppliers.join(', '))})</li>`;
     }
     html += '</ul>';
   }
@@ -104,7 +104,7 @@ export function renderExecutiveHtml(report) {
   if (report.topCategories.length) {
     html += '<h3>פילוח לפי סוג בעיה (Major)</h3><ul>';
     for (const [cat, n] of report.topCategories) {
-      html += `<li>${escapeHtml(cat)}: ${n}</li>`;
+      html += `<li>${htmlEscape(cat)}: ${n}</li>`;
     }
     html += '</ul>';
   }
@@ -115,13 +115,13 @@ export function renderExecutiveHtml(report) {
 /** Full HTML block for one supplier / one file. */
 export function renderSupplierDetailHtml(s, index) {
   let html = `<div class="sup-block">`;
-  html += `<h2>${index}. ${escapeHtml(s.supplier)}</h2>`;
-  html += `<p class="meta">קובץ: ${escapeHtml(s.sourceFileLabel || '')} · תאריך: ${escapeHtml(s.auditDate || '—')} · ציון: ${s.score} (${escapeHtml(s.rating.label)}) · Major: ${s.majorCount} · Minor: ${s.minorCount}</p>`;
+  html += `<h2>${index}. ${htmlEscape(s.supplier)}</h2>`;
+  html += `<p class="meta">קובץ: ${htmlEscape(s.sourceFileLabel || '')} · תאריך: ${htmlEscape(s.auditDate || '—')} · ציון: ${s.score} (${htmlEscape(s.rating.label)}) · Major: ${s.majorCount} · Minor: ${s.minorCount}</p>`;
 
   if (s.improveAreas.length) {
     html += '<h3>במה לשפר</h3><ul>';
     for (const a of s.improveAreas) {
-      html += `<li><strong>${escapeHtml(a.category)}</strong> — ${a.count} ממצאי Major</li>`;
+      html += `<li><strong>${htmlEscape(a.category)}</strong> — ${a.count} ממצאי Major</li>`;
     }
     html += '</ul>';
   }
@@ -129,8 +129,8 @@ export function renderSupplierDetailHtml(s, index) {
   if (s.majors.length) {
     html += `<h3>ממצאי Major (${s.majorCount})</h3><ul>`;
     for (const f of s.majors) {
-      const q = f.questionId ? `[${escapeHtml(f.questionId)}] ${escapeHtml(f.questionText)} — ` : '';
-      html += `<li class="major">${q}${escapeHtml(f.findingText)}</li>`;
+      const q = f.questionId ? `[${htmlEscape(f.questionId)}] ${htmlEscape(f.questionText)} — ` : '';
+      html += `<li class="major">${q}${htmlEscape(f.findingText)}</li>`;
     }
     html += '</ul>';
   }
@@ -138,8 +138,8 @@ export function renderSupplierDetailHtml(s, index) {
   if (s.minors.length) {
     html += `<h3>ממצאי Minor (${s.minorCount})</h3><ul>`;
     for (const f of s.minors) {
-      const q = f.questionId ? `[${escapeHtml(f.questionId)}] ${escapeHtml(f.questionText)} — ` : '';
-      html += `<li class="minor">${q}${escapeHtml(f.findingText)}</li>`;
+      const q = f.questionId ? `[${htmlEscape(f.questionId)}] ${htmlEscape(f.questionText)} — ` : '';
+      html += `<li class="minor">${q}${htmlEscape(f.findingText)}</li>`;
     }
     html += '</ul>';
   }
@@ -148,7 +148,7 @@ export function renderSupplierDetailHtml(s, index) {
   return html;
 }
 
-function escapeHtml(s) {
+function htmlEscape(s) {
   return String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

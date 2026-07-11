@@ -1,0 +1,4359 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דשבורד מבדקי הסמכה | ספקים</title>
+  <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0b0f14;
+  --surface: #131920;
+  --surface2: #1a222d;
+  --surface3: #222c3a;
+  --border: #2a3544;
+  --text: #e8edf4;
+  --muted: #8494a7;
+  --blue: #4d9fff;
+  --blue-dim: #4d9fff22;
+  --green: #3ecf8e;
+  --green-dim: #3ecf8e22;
+  --yellow: #e6b422;
+  --yellow-dim: #e6b42222;
+  --red: #f05d5e;
+  --red-dim: #f05d5e22;
+  --purple: #a78bfa;
+  --sidebar-w: 240px;
+  --topbar-h: 64px;
+  --r: 10px;
+  --shadow: 0 4px 24px #00000055;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+
+/* ── Buttons ── */
+.btn-primary, .btn-secondary, .btn-ghost, .btn-icon {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary { background: var(--blue); color: #071018; font-weight: 700; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-icon { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 0.45rem 0.65rem; font-size: 1rem; display: none; }
+.btn-sm { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
+.btn-primary:hover, .btn-secondary:hover, .btn-ghost:hover, .btn-icon:hover { opacity: 0.88; }
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+}
+
+/* ── Welcome screen ── */
+.welcome-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, #4d9fff18, transparent),
+    var(--bg);
+}
+
+.welcome-inner {
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+}
+
+.welcome-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.welcome-brand h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.35rem; }
+.welcome-brand h1 span { color: var(--blue); }
+.welcome-brand p { color: var(--muted); font-size: 0.9rem; }
+
+.btn-settings-welcome {
+  display: block;
+  margin: 1.25rem auto 0;
+}
+
+.up-zone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.up-zone.over { border-color: var(--blue); background: var(--surface2); }
+.up-icon { font-size: 2.25rem; margin-bottom: 0.65rem; }
+.up-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+.up-sub { color: var(--muted); font-size: 0.86rem; margin-bottom: 1.1rem; line-height: 1.6; }
+.up-actions { display: flex; gap: 0.55rem; justify-content: center; flex-wrap: wrap; }
+
+.settings-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem;
+}
+
+.settings-inline { margin: 0 1.5rem 1rem; }
+
+.settings-panel h3 { font-size: 0.92rem; margin-bottom: 0.85rem; }
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.settings-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.settings-grid input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  font-family: inherit;
+}
+
+.file-list-wrap { margin-top: 1.5rem; }
+.file-list-wrap h3 { font-size: 0.92rem; margin-bottom: 0.65rem; }
+.file-list { list-style: none; margin-bottom: 1rem; max-height: 200px; overflow-y: auto; }
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+  font-size: 0.84rem;
+}
+
+.file-list .ext { color: var(--muted); font-size: 0.74rem; }
+
+.parse-error-wrap {
+  margin-top: 1.25rem;
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+}
+
+.parse-error-wrap h3 { font-size: 0.92rem; color: var(--red); margin-bottom: 0.4rem; }
+.parse-error-hint { font-size: 0.84rem; color: var(--muted); margin-bottom: 0.65rem; }
+
+/* ── Dashboard shell ── */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  flex-shrink: 0;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+}
+
+.topbar {
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.topbar-start { display: flex; align-items: center; gap: 0.85rem; }
+.page-title { font-size: 1.15rem; font-weight: 700; }
+.page-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+#appMeta { color: var(--blue); font-weight: 600; }
+.topbar-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+
+/* ── Navigation button panel ── */
+.nav-panel {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.65rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.nav-btn {
+  flex-shrink: 0;
+  padding: 0.55rem 1.1rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.nav-btn:hover {
+  background: var(--surface3);
+  color: var(--text);
+  border-color: var(--blue);
+}
+
+.nav-btn.active {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border-color: var(--blue);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--blue-dim);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.25rem 1.5rem 2.5rem;
+  overflow-y: auto;
+}
+
+.view-pane { display: none; }
+.view-pane.active { display: block; }
+
+/* ── KPI cards ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  box-shadow: var(--shadow);
+}
+
+.kpi-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon.blue { background: var(--blue-dim); }
+.kpi-icon.yellow { background: var(--yellow-dim); }
+.kpi-icon.green { background: var(--green-dim); }
+.kpi-icon.red { background: var(--red-dim); }
+
+.kpi-v { font-size: 1.55rem; font-weight: 700; line-height: 1.1; }
+.kpi-l { color: var(--muted); font-size: 0.76rem; margin-top: 0.1rem; }
+
+/* ── Dashboard grid ── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.dash-card-wide { grid-column: span 1; }
+
+.card-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.card-hdr h3 { font-size: 0.9rem; font-weight: 600; }
+.card-hint { font-size: 0.75rem; color: var(--muted); }
+
+/* ── Rank list ── */
+.rank-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  background: var(--surface2);
+  border-radius: 8px;
+  font-size: 0.86rem;
+}
+
+.rank-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.rank-num.top { background: var(--blue-dim); color: var(--blue); }
+.rank-name { flex: 1; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-score { font-weight: 700; font-size: 0.95rem; }
+
+.rank-bar-wrap {
+  width: 60px;
+  height: 5px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rank-bar { height: 100%; border-radius: 3px; background: var(--blue); }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.data-table th, .data-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.data-table tbody tr:hover { background: var(--surface2); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.col-supplier { min-width: 140px; }
+.supplier-name { font-size: 0.92rem; color: var(--text); }
+
+.col-file {
+  font-size: 0.76rem;
+  color: var(--muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.b-major { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-minor { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-excellent { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.b-good { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-average { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-weak { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+
+/* ── Supplier cards ── */
+.supplier-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.sup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  border-right: 3px solid var(--blue);
+  box-shadow: var(--shadow);
+}
+
+.sup-file { font-size: 0.76rem; color: var(--blue); margin-top: 0.1rem; }
+.sup-index { font-size: 0.73rem; color: var(--muted); margin-left: 0.4rem; }
+.sup-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.65rem 0 0.85rem; font-size: 0.84rem; }
+.sup-stats span { color: var(--muted); }
+.sup-stats strong { color: var(--text); }
+
+.sup-hdr {
+  padding: 0.9rem 1.1rem;
+  background: var(--surface2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sup-name { font-weight: 700; font-size: 0.95rem; }
+.sup-meta { display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap; }
+.sup-body { padding: 0.9rem 1.1rem; display: none; }
+.sup-body.open { display: block; }
+
+.improve-list { margin: 0.65rem 0 0.85rem; padding-right: 1.15rem; color: var(--muted); font-size: 0.86rem; }
+.improve-list li { margin-bottom: 0.3rem; }
+
+.finding-item {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.finding-item:last-child { border-bottom: none; }
+.finding-q { color: var(--muted); font-size: 0.78rem; margin-bottom: 0.15rem; }
+.finding-t { color: var(--text); }
+
+/* ── Executive report ── */
+.executive-report {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow);
+}
+
+.executive-report h2 { font-size: 1.05rem; margin-bottom: 0.65rem; color: var(--blue); }
+.executive-report h3 { font-size: 0.92rem; margin: 0.85rem 0 0.45rem; }
+.executive-report p { margin-bottom: 0.55rem; color: var(--muted); }
+.executive-report ul { padding-right: 1.15rem; margin-bottom: 0.65rem; color: var(--text); }
+.executive-report li { margin-bottom: 0.3rem; }
+
+.ch-box { position: relative; height: 220px; }
+
+.parse-log { list-style: none; }
+.parse-log li {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.84rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.parse-log li:last-child { border-bottom: none; }
+.parse-log .ok { color: var(--green); }
+.parse-log .warn { color: var(--yellow); }
+.parse-log .err { color: var(--red); }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  z-index: 300;
+  box-shadow: var(--shadow);
+}
+
+.toast.ok { border-color: var(--green); color: var(--green); }
+.toast.err { border-color: var(--red); color: var(--red); }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr 1fr; }
+  .dash-card-wide { grid-column: span 2; }
+}
+
+@media (max-width: 860px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-card-wide { grid-column: span 1; }
+  .topbar { padding: 0.75rem 1rem; }
+  .nav-panel { padding: 0.55rem 1rem; }
+  .dashboard-content { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media print {
+  .app-header, .link-btn { display: none !important; }
+  #tabFiles { display: none !important; }
+  .view-pane { display: block !important; page-break-before: always; }
+  #tabDashboard { page-break-before: auto; }
+  body { background: #fff; color: #000; }
+  .dash-card, .executive-report, .data-table, .sup-card, .kpi-card { border-color: #ccc; box-shadow: none; }
+  .sup-body { display: block !important; }
+}
+
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Welcome / upload -->
+  <section id="sectionUpload" class="welcome-screen">
+    <div class="welcome-inner">
+      <div class="welcome-brand">
+        <div class="brand-icon">📊</div>
+        <h1>דשבורד <span>מבדקי הסמכה</span></h1>
+        <p>ניתוח, השוואה ודירוג ספקים · Excel · CSV · Word · PDF</p>
+      </div>
+
+      <div class="up-zone" id="dropZone">
+        <div class="up-icon">📁</div>
+        <p class="up-title">בחר תיקייה עם קבצי מבדק</p>
+        <p class="up-sub">גרור תיקייה לכאן, או לחץ לבחירה<br>לדוגמה: התיקייה <strong>דוחות ממצאים</strong></p>
+        <div class="up-actions">
+          <button type="button" class="btn-primary" id="btnPickFolder">בחר תיקייה</button>
+          <label class="btn-secondary">
+            בחר קבצים
+            <input type="file" id="fileInputFallback" multiple accept=".xlsx,.xls,.csv,.docx,.pdf" hidden>
+          </label>
+          <label class="btn-secondary">
+            בחר תיקייה (fallback)
+            <input type="file" id="folderInputFallback" webkitdirectory hidden>
+          </label>
+        </div>
+      </div>
+
+      <div id="settingsPanel" class="settings-panel hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBase" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajor" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinor" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellent" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGood" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverage" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettings">שמור הגדרות</button>
+      </div>
+
+      <div id="fileListWrap" class="file-list-wrap hidden">
+        <h3>קבצים שנמצאו</h3>
+        <ul id="fileList" class="file-list"></ul>
+        <button type="button" class="btn-primary" id="btnAnalyze">הרץ ניתוח</button>
+      </div>
+
+      <div id="parseErrorWrap" class="parse-error-wrap hidden">
+        <h3>⚠ לא נמצאו ממצאים</h3>
+        <p class="parse-error-hint">בדוק את לשונית "קבצים" לפרטים, או ודא שיש עמודות הערכה (מתאים / מינורי / מהותי).</p>
+        <ul id="parseErrorLog" class="parse-log"></ul>
+      </div>
+
+      <button type="button" class="btn-ghost btn-settings-welcome" id="btnSettings">⚙ הגדרות ציון</button>
+    </div>
+  </section>
+
+  <!-- Dashboard app -->
+  <div id="sectionApp" class="dashboard hidden">
+
+    <div class="app-header">
+    <header class="topbar">
+      <div class="topbar-start">
+        <span class="brand-dot"></span>
+        <div>
+          <h2 class="page-title" id="pageTitle">דשבורד</h2>
+          <p class="page-sub"><span id="appMeta">—</span> · <span id="pageSub">סקירה כללית של כל הספקים</span></p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn-secondary btn-sm" id="btnPrint">הדפס</button>
+        <button type="button" class="btn-secondary btn-sm" id="btnExportHtml">ייצוא HTML</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnSettingsApp" title="הגדרות">⚙</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnReset">↩ תיקייה חדשה</button>
+      </div>
+    </header>
+
+    <nav class="nav-panel" role="navigation" aria-label="ניווט מסכים">
+      <button type="button" class="nav-btn active" data-tab="dashboard">◉ דשבורד</button>
+      <button type="button" class="nav-btn" data-tab="detail">☰ פרוט ספקים</button>
+      <button type="button" class="nav-btn" data-tab="compare">⇅ טבלת השוואה</button>
+      <button type="button" class="nav-btn" data-tab="summary">✦ סיכום מנהלים</button>
+      <button type="button" class="nav-btn" data-tab="files">📄 קבצים</button>
+    </nav>
+    </div>
+
+    <div id="settingsPanelApp" class="settings-panel settings-inline hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBaseApp" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajorApp" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinorApp" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellentApp" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGoodApp" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverageApp" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettingsApp">שמור וחשב מחדש</button>
+      </div>
+
+      <main class="dashboard-content">
+
+        <!-- Dashboard overview -->
+        <div id="tabDashboard" class="view-pane active">
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <div class="dash-grid">
+            <div class="dash-card dash-card-wide">
+              <div class="card-hdr">
+                <h3>דירוג ספקים</h3>
+                <span class="card-hint">לפי ציון</span>
+              </div>
+              <div class="rank-list" id="rankList"></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>פילוח בעיות</h3></div>
+              <div class="ch-box"><canvas id="chartCategories"></canvas></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>התפלגות דירוגים</h3></div>
+              <div class="ch-box"><canvas id="chartRatings"></canvas></div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-hdr">
+              <h3>טבלת השוואה</h3>
+              <button type="button" class="link-btn" data-goto="compare">הצג מלא ←</button>
+            </div>
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTableDash">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supplier detail -->
+        <div id="tabDetail" class="view-pane">
+          <div id="supplierCards" class="supplier-cards"></div>
+        </div>
+
+        <!-- Full compare -->
+        <div id="tabCompare" class="view-pane">
+          <div class="kpi-grid" id="kpiGridCompare"></div>
+          <div class="dash-card">
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTable">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>תאריך מבדק</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>סה"כ</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                    <th>קובץ</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive summary -->
+        <div id="tabSummary" class="view-pane">
+          <div id="executiveReport" class="executive-report"></div>
+        </div>
+
+        <!-- Files log -->
+        <div id="tabFiles" class="view-pane">
+          <div class="dash-card">
+            <div class="card-hdr"><h3>יומן ניתוח קבצים</h3></div>
+            <ul id="parseLog" class="parse-log"></ul>
+          </div>
+        </div>
+
+      </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module">
+
+// --- js/categories.js ---
+'use strict';
+
+/** Category definitions with bilingual keywords */
+const CATEGORIES = [
+  {
+    id: 'documentation',
+    label: 'תיעוד',
+    labelEn: 'Documentation',
+    keywords: ['תיעוד', 'document', 'record', 'log', 'file', 'archive', 'רישום', 'מסמך', 'procedure doc'],
+  },
+  {
+    id: 'quality',
+    label: 'בקרת איכות',
+    labelEn: 'Quality Control',
+    keywords: ['quality', 'qc', 'inspection', 'בקרה', 'איכות', 'fai', 'acceptance', 'test', 'בדיקה'],
+  },
+  {
+    id: 'calibration',
+    label: 'כיול',
+    labelEn: 'Calibration',
+    keywords: ['calibration', 'calibrate', 'כיול', 'gauge', 'מד', 'instrument', 'מכשיר'],
+  },
+  {
+    id: 'training',
+    label: 'הדרכה',
+    labelEn: 'Training',
+    keywords: ['training', 'train', 'הדרכה', 'competence', 'competency', 'כשירות', 'skill'],
+  },
+  {
+    id: 'safety',
+    label: 'בטיחות',
+    labelEn: 'Safety',
+    keywords: ['safety', 'esd', 'בטיחות', 'hazard', 'ppe', 'fod', 'environment'],
+  },
+  {
+    id: 'supplier_mgmt',
+    label: 'ניהול ספקים',
+    labelEn: 'Supplier Management',
+    keywords: ['subcontract', 'outsourc', 'supplier', 'vendor', 'ספק', 'chain', 'flow down'],
+  },
+  {
+    id: 'process',
+    label: 'תהליכים',
+    labelEn: 'Process',
+    keywords: ['process', 'procedure', 'work instruction', 'תהליך', 'נוהל', 'wi', 'flow'],
+  },
+  {
+    id: 'traceability',
+    label: 'עקיבות',
+    labelEn: 'Traceability',
+    keywords: ['traceability', 'trace', 'serial', 'lot', 'batch', 'עקיבות', 'סריאלי', 'מנה'],
+  },
+];
+
+const OTHER = { id: 'other', label: 'אחר', labelEn: 'Other' };
+
+/**
+ * Classify finding text into a category.
+ */
+function classifyCategory(text) {
+  const s = String(text || '').toLowerCase();
+  if (!s) return OTHER.label;
+
+  let best = null;
+  let bestCount = 0;
+
+  for (const cat of CATEGORIES) {
+    let count = 0;
+    for (const kw of cat.keywords) {
+      if (s.includes(kw.toLowerCase())) count++;
+    }
+    if (count > bestCount) {
+      bestCount = count;
+      best = cat;
+    }
+  }
+
+  return best ? best.label : OTHER.label;
+}
+
+function getCategoryByLabel(label) {
+  return CATEGORIES.find(c => c.label === label) || OTHER;
+}
+
+function allCategoryLabels() {
+  return [...CATEGORIES.map(c => c.label), OTHER.label];
+}
+
+
+// --- js/parsers/detect.js ---
+'use strict';
+
+/** Column field aliases — Hebrew + English */
+const FIELD_ALIASES = {
+  supplier: [
+    'ספק', 'שם ספק', 'שם הספק', 'vendor', 'supplier', 'supplier name',
+    'company', 'organization', 'ארגון', 'חברה', 'supplier company',
+  ],
+  auditDate: [
+    'תאריך מבדק', 'תאריך', 'תאריך ביקורת', 'audit date', 'date', 'inspection date',
+    'audit_date', 'review date', 'תאריך בדיקה',
+  ],
+  questionId: [
+    'מס', 'מספר', 'מס\'', '#', 'id', 'no', 'num', 'clause', 'סעיף', 'קוד',
+    'question no', 'item', 'ref',
+  ],
+  question: [
+    'שאלה', 'דרישה', 'requirement', 'question', 'clause text', 'סעיף',
+    'audit question', 'checklist item', 'נושא', 'תיאור דרישה', 'criteria',
+    'פריט', 'נקודת ביקורת', 'item description',
+  ],
+  evaluation: [
+    'הערכה', 'ערכה', 'evaluation', 'assessment', 'rating', 'result',
+    'תוצאה', 'ציון', 'grade', 'score', 'conformance', 'עמידה', 'מסקנה',
+    'תשובה', 'response', 'answer',
+  ],
+  finding: [
+    'ממצא', 'finding', 'observation', 'nc', 'non conformance', 'nonconformance',
+    'הערה', 'comment', 'remarks', 'remark', 'issue', 'deficiency', 'פער',
+    'תיאור ממצא', 'finding description', 'nc description',
+    'הערות', 'פירוט', 'הערות מבדק', 'notes', 'details', 'תיאור', 'description',
+  ],
+  severity: [
+    'חומרה', 'severity', 'classification', 'class', 'דרגה', 'רמה', 'level',
+    'grade', 'priority', 'nc class', 'finding type', 'סוג ממצא', 'סיווג',
+  ],
+};
+
+const MAJOR_TERMS = [
+  'major', 'maj', 'משמעותי', 'עיקרי', 'גבוה', 'high', 'significant', 'critical',
+  'מ\'', 'maj.', 'major nc',
+];
+
+const MINOR_TERMS = [
+  'minor', 'min', 'קל', 'משני', 'low', 'נמוך', 'min.', 'minor nc',
+];
+
+const NO_FINDING_TERMS = [
+  'compliant', 'conform', 'conformance', 'pass', 'ok', 'n/a', 'na', 'none',
+  'no finding', 'no nc', 'עמידה', 'תקין', 'ללא ממצא', 'אין ממצא', 'עומד',
+  'satisfactory', 'acceptable', '—', '-', '',
+  'מתאים', 'מתאימה', 'conforms', 'suitable', 'yes', 'כן',
+];
+
+/** Values in the "הערכה" (evaluation) column */
+const EVAL_COMPLIANT = ['מתאים', 'מתאימה', 'conforms', 'conform', 'compliant', 'pass', 'ok', 'עומד', 'תקין', 'נמצא מתאים', 'n/a', 'na', 'n / a'];
+const EVAL_MAJOR = ['מהותי', 'מהותית', 'לא מתאים', 'לא מתאימה', 'major', 'significant', 'critical'];
+const EVAL_MINOR = ['מינורי', 'מינורית', 'minor'];
+
+/**
+ * Normalize header cell for matching.
+ */
+function normHeader(s) {
+  return String(s ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[_\-./\\]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/[^\w\u0590-\u05FF\s]/g, '');
+}
+
+/**
+ * Score how well a header matches alias patterns.
+ */
+function matchScore(header, patterns) {
+  const h = normHeader(header);
+  if (!h) return 0;
+  let best = 0;
+  for (const p of patterns) {
+    const pn = normHeader(p);
+    if (!pn) continue;
+    if (h === pn) return 100;
+    if (h.includes(pn) || pn.includes(h)) best = Math.max(best, 80);
+    const hw = h.split(' ');
+    const pw = pn.split(' ');
+    for (const w of pw) {
+      if (w.length >= 3 && hw.some(x => x === w || x.includes(w))) {
+        best = Math.max(best, 60);
+      }
+    }
+  }
+  return best;
+}
+
+/**
+ * Detect column mapping from header row.
+ * @returns {Record<string, number>} field -> column index
+ */
+function detectColumns(headers) {
+  const mapping = {};
+  const used = new Set();
+
+  for (const [field, patterns] of Object.entries(FIELD_ALIASES)) {
+    let bestIdx = -1;
+    let bestScore = 0;
+    headers.forEach((h, i) => {
+      if (used.has(i)) return;
+      const sc = matchScore(h, patterns);
+      if (sc > bestScore) {
+        bestScore = sc;
+        bestIdx = i;
+      }
+    });
+    if (bestIdx >= 0 && bestScore >= 55) {
+      mapping[field] = bestIdx;
+      used.add(bestIdx);
+    }
+  }
+  return mapping;
+}
+
+/**
+ * Find header row index in first N rows of a 2D array.
+ */
+function findHeaderRow(rows, maxScan = 8) {
+  let bestRow = 0;
+  let bestScore = 0;
+  const limit = Math.min(maxScan, rows.length);
+  for (let r = 0; r < limit; r++) {
+    const headers = rows[r] || [];
+    const map = detectColumns(headers);
+    const score = Object.keys(map).length;
+    if (score > bestScore) {
+      bestScore = score;
+      bestRow = r;
+    }
+  }
+  return bestRow;
+}
+
+/**
+ * Parse "הערכה" field: מתאים | לא מתאים | מינורי | מהותי
+ * @returns {'major'|'minor'|null} null = compliant / no finding
+ */
+function parseEvaluation(raw) {
+  const s = String(raw ?? '').trim().toLowerCase();
+  if (!s) return null;
+
+  for (const t of EVAL_COMPLIANT) {
+    if (s === t.toLowerCase()) return null;
+  }
+  for (const t of EVAL_MINOR) {
+    if (s === t.toLowerCase() || s.includes(t.toLowerCase())) return 'minor';
+  }
+  for (const t of EVAL_MAJOR) {
+    if (s === t.toLowerCase() || s.includes(t.toLowerCase())) return 'major';
+  }
+  // fallback: partial Hebrew matches
+  if (/^מינור/i.test(s)) return 'minor';
+  if (/^מהות/i.test(s) || /^לא\s*מתא/i.test(s)) return 'major';
+  if (/^מתא/i.test(s)) return null;
+  return null;
+}
+
+/** True when evaluation means compliant (מתאים) — no finding. */
+function isCompliantEvaluation(raw) {
+  if (!raw) return false;
+  return parseEvaluation(raw) === null && (
+    EVAL_COMPLIANT.some(t => String(raw).trim().toLowerCase() === t.toLowerCase())
+    || /^מתא/i.test(String(raw).trim())
+  );
+}
+
+/**
+ * Parse severity string to 'major' | 'minor' | null.
+ */
+function parseSeverity(raw) {
+  const evalResult = parseEvaluation(raw);
+  if (evalResult) return evalResult;
+
+  const s = String(raw ?? '').trim().toLowerCase();
+  if (!s) return null;
+  for (const t of NO_FINDING_TERMS) {
+    if (s === t.toLowerCase()) return null;
+  }
+  for (const t of MAJOR_TERMS) {
+    if (s.includes(t.toLowerCase())) return 'major';
+  }
+  for (const t of MINOR_TERMS) {
+    if (s.includes(t.toLowerCase())) return 'minor';
+  }
+  if (/^m[^i]|maj/i.test(s)) return 'major';
+  if (/^min/i.test(s)) return 'minor';
+  return null;
+}
+
+/**
+ * Check if finding text indicates no finding.
+ */
+function isNoFinding(text) {
+  const s = String(text ?? '').trim().toLowerCase();
+  if (!s) return true;
+  for (const t of NO_FINDING_TERMS) {
+    if (s === t.toLowerCase()) return true;
+  }
+  if (/^(yes|y|כן)$/.test(s)) return true;
+  if (/^(compliant|conform|conformance|pass|ok|n\/a|na|none|satisfactory|acceptable|עמידה|תקין|ללא ממצא|אין ממצא|עומד|מתאים|מתאימה)[\s.!]*$/i.test(s)) return true;
+  return false;
+}
+
+/**
+ * Extract supplier name and date from filename.
+ * e.g. "ABC Ltd_2024-03-15.xlsx"
+ */
+function parseFilenameMeta(filename) {
+  const base = filename.replace(/\.[^.]+$/, '');
+  let supplier = null;
+  let auditDate = null;
+
+  const dateMatch = base.match(/(\d{4}[-_/]\d{1,2}[-_/]\d{1,2}|\d{1,2}[-_/]\d{1,2}[-_/]\d{2,4})/);
+  if (dateMatch) {
+    auditDate = normalizeDate(dateMatch[1]);
+    supplier = base.replace(dateMatch[0], '').replace(/[_\-.\s]+$/, '').replace(/^[_\-.\s]+/, '').trim();
+  } else {
+    supplier = base.trim();
+  }
+
+  if (supplier && /^(audit|report|מבדק|דוח)/i.test(supplier)) supplier = null;
+  return { supplier: supplier || null, auditDate };
+}
+
+/**
+ * Normalize date string to display format.
+ */
+function normalizeDate(raw) {
+  if (!raw) return null;
+  if (raw instanceof Date && !isNaN(raw)) {
+    return raw.toISOString().slice(0, 10);
+  }
+  const s = String(raw).trim();
+  if (!s) return null;
+
+  // Excel serial
+  if (/^\d{4,5}(\.\d+)?$/.test(s)) {
+    const n = parseFloat(s);
+    if (n > 30000 && n < 60000) {
+      const d = new Date((n - 25569) * 86400000);
+      if (!isNaN(d)) return d.toISOString().slice(0, 10);
+    }
+  }
+
+  const iso = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+  if (iso) {
+    return `${iso[1]}-${iso[2].padStart(2, '0')}-${iso[3].padStart(2, '0')}`;
+  }
+  const dmy = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{2,4})/);
+  if (dmy) {
+    let y = dmy[3];
+    if (y.length === 2) y = '20' + y;
+    return `${y}-${dmy[2].padStart(2, '0')}-${dmy[1].padStart(2, '0')}`;
+  }
+  return s;
+}
+
+function cellStr(row, idx) {
+  if (idx == null || idx < 0 || !row) return '';
+  const v = row[idx];
+  if (v == null) return '';
+  return String(v).trim();
+}
+
+
+// --- js/normalize.js ---
+'use strict';
+
+/**
+ * @typedef {Object} Finding
+ * @property {string} supplier
+ * @property {string|null} auditDate
+ * @property {string} questionId
+ * @property {string} questionText
+ * @property {string} findingText
+ * @property {'major'|'minor'} severity
+ * @property {string} category
+ * @property {string} sourceFile
+ */
+
+/**
+ * Build a normalized finding object.
+ */
+function createFinding(partial) {
+  const text = partial.findingText || partial.questionText || '';
+  return {
+    supplier: String(partial.supplier || 'לא ידוע').trim(),
+    auditDate: partial.auditDate || null,
+    questionId: String(partial.questionId || '').trim(),
+    questionText: String(partial.questionText || '').trim(),
+    findingText: String(partial.findingText || '').trim(),
+    severity: partial.severity,
+    category: partial.category || classifyCategory(text),
+    sourceFile: partial.sourceFile || '',
+  };
+}
+
+/**
+ * Merge metadata defaults into findings array.
+ */
+function applyMeta(findings, meta) {
+  return findings.map(f => createFinding({
+    ...f,
+    supplier: f.supplier && f.supplier !== 'לא ידוע' ? f.supplier : (meta.supplier || f.supplier),
+    auditDate: f.auditDate || meta.auditDate || null,
+    sourceFile: f.sourceFile || meta.sourceFile || '',
+  }));
+}
+
+/**
+ * Group findings by supplier name.
+ */
+function groupBySupplier(findings) {
+  const map = new Map();
+  for (const f of findings) {
+    const key = f.supplier || 'לא ידוע';
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(f);
+  }
+  return map;
+}
+
+/**
+ * Parse rows from tabular data using column mapping.
+ */
+function rowsToFindings(rows, headerRowIdx, mapping, meta) {
+  const findings = [];
+  const hasEvaluation = mapping.evaluation != null;
+
+  for (let r = headerRowIdx + 1; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row || row.every(c => c == null || String(c).trim() === '')) continue;
+
+    const get = (field) => cellStr(row, mapping[field]);
+
+    const questionText = get('question');
+    const questionId = get('questionId');
+    const evaluationRaw = get('evaluation');
+    const findingText = get('finding');
+    const severityRaw = get('severity');
+
+    let severity = null;
+
+    // Primary: "הערכה" column (מתאים / לא מתאים / מינורי / מהותי)
+    if (hasEvaluation && evaluationRaw) {
+      if (isCompliantEvaluation(evaluationRaw)) continue;
+      severity = parseEvaluation(evaluationRaw);
+    }
+
+    // Fallback: separate severity / major-minor column
+    if (!severity && severityRaw) severity = parseSeverity(severityRaw);
+
+    if (!severity) {
+      const combined = `${findingText} ${questionText} ${evaluationRaw}`;
+      if (/\bmajor\b|משמעותי|עיקרי|מהות/i.test(combined)) severity = 'major';
+      else if (/\bminor\b|משני|קל|מינור/i.test(combined)) severity = 'minor';
+      else if (/לא\s*מתא/i.test(combined)) severity = 'major';
+    }
+
+    if (!severity) continue;
+
+    // Build finding text
+    let text = findingText;
+    if (!text || isNoFinding(text)) {
+      if (questionText) {
+        text = evaluationRaw && !isCompliantEvaluation(evaluationRaw)
+          ? `${questionText} — ${evaluationRaw}`
+          : questionText;
+      } else {
+        text = evaluationRaw;
+      }
+    }
+
+    if (isNoFinding(text) && isCompliantEvaluation(evaluationRaw)) continue;
+
+    const dateRaw = get('auditDate');
+    findings.push(createFinding({
+      supplier: get('supplier') || meta.supplier,
+      auditDate: normalizeDate(dateRaw) || meta.auditDate,
+      questionId,
+      questionText,
+      findingText: text,
+      severity,
+      sourceFile: meta.sourceFile,
+    }));
+  }
+
+  return applyMeta(findings, meta);
+}
+
+
+// --- js/parsers/pdf-text.js ---
+'use strict';
+
+const EVAL_WORD = '(?:תקין|מתאים|נמצא\\s*מתאים|מינורי|מהותי|לא\\s*מתאים)';
+
+/** Group PDF document pages into text lines by Y position. */
+async function extractLinesFromPdf(pdf) {
+  const lines = [];
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
+    const groups = new Map();
+    for (const item of content.items) {
+      if (!item.str?.trim()) continue;
+      const y = Math.round(item.transform[5]);
+      if (!groups.has(y)) groups.set(y, []);
+      groups.get(y).push(item);
+    }
+    for (const y of [...groups.keys()].sort((a, b) => b - a)) {
+      const text = groups.get(y)
+        .sort((a, b) => a.transform[4] - b.transform[4])
+        .map(i => i.str).join(' ')
+        .replace(/\s+/g, ' ').trim();
+      if (text.length > 1) lines.push(text);
+    }
+  }
+  return lines;
+}
+
+/** Parse lines from IAI Hebrew audit PDFs (RTL + LTR column layouts). */
+function parseIaiHebrewLines(lines, meta) {
+  const findings = [];
+
+  for (const line of lines) {
+    if (line.length > 350) continue;
+    if (/^(סיכום|KASET|לתעשייה|www\.iai|הספק יציג|הצגת מערכת)/i.test(line)) continue;
+
+    const parsed = parseRtlEvaluationLine(line) || parseLtrEvaluationLine(line);
+    if (!parsed) continue;
+
+    findings.push(createFinding({ ...meta, ...parsed }));
+  }
+  return findings;
+}
+
+/** RTL: "x מהותי ...text... V 8.4.2 9" or "X לא מתאים ... 3.4" */
+function parseRtlEvaluationLine(line) {
+  const m = line.match(new RegExp(`^(?:[Xx]\\s+)?(${EVAL_WORD})\\.?\\s*(.+)<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דשבורד מבדקי הסמכה | ספקים</title>
+  <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0b0f14;
+  --surface: #131920;
+  --surface2: #1a222d;
+  --surface3: #222c3a;
+  --border: #2a3544;
+  --text: #e8edf4;
+  --muted: #8494a7;
+  --blue: #4d9fff;
+  --blue-dim: #4d9fff22;
+  --green: #3ecf8e;
+  --green-dim: #3ecf8e22;
+  --yellow: #e6b422;
+  --yellow-dim: #e6b42222;
+  --red: #f05d5e;
+  --red-dim: #f05d5e22;
+  --purple: #a78bfa;
+  --sidebar-w: 240px;
+  --topbar-h: 64px;
+  --r: 10px;
+  --shadow: 0 4px 24px #00000055;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+
+/* ── Buttons ── */
+.btn-primary, .btn-secondary, .btn-ghost, .btn-icon {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary { background: var(--blue); color: #071018; font-weight: 700; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-icon { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 0.45rem 0.65rem; font-size: 1rem; display: none; }
+.btn-sm { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
+.btn-primary:hover, .btn-secondary:hover, .btn-ghost:hover, .btn-icon:hover { opacity: 0.88; }
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+}
+
+/* ── Welcome screen ── */
+.welcome-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, #4d9fff18, transparent),
+    var(--bg);
+}
+
+.welcome-inner {
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+}
+
+.welcome-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.welcome-brand h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.35rem; }
+.welcome-brand h1 span { color: var(--blue); }
+.welcome-brand p { color: var(--muted); font-size: 0.9rem; }
+
+.btn-settings-welcome {
+  display: block;
+  margin: 1.25rem auto 0;
+}
+
+.up-zone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.up-zone.over { border-color: var(--blue); background: var(--surface2); }
+.up-icon { font-size: 2.25rem; margin-bottom: 0.65rem; }
+.up-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+.up-sub { color: var(--muted); font-size: 0.86rem; margin-bottom: 1.1rem; line-height: 1.6; }
+.up-actions { display: flex; gap: 0.55rem; justify-content: center; flex-wrap: wrap; }
+
+.settings-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem;
+}
+
+.settings-inline { margin: 0 1.5rem 1rem; }
+
+.settings-panel h3 { font-size: 0.92rem; margin-bottom: 0.85rem; }
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.settings-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.settings-grid input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  font-family: inherit;
+}
+
+.file-list-wrap { margin-top: 1.5rem; }
+.file-list-wrap h3 { font-size: 0.92rem; margin-bottom: 0.65rem; }
+.file-list { list-style: none; margin-bottom: 1rem; max-height: 200px; overflow-y: auto; }
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+  font-size: 0.84rem;
+}
+
+.file-list .ext { color: var(--muted); font-size: 0.74rem; }
+
+.parse-error-wrap {
+  margin-top: 1.25rem;
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+}
+
+.parse-error-wrap h3 { font-size: 0.92rem; color: var(--red); margin-bottom: 0.4rem; }
+.parse-error-hint { font-size: 0.84rem; color: var(--muted); margin-bottom: 0.65rem; }
+
+/* ── Dashboard shell ── */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  flex-shrink: 0;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+}
+
+.topbar {
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.topbar-start { display: flex; align-items: center; gap: 0.85rem; }
+.page-title { font-size: 1.15rem; font-weight: 700; }
+.page-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+#appMeta { color: var(--blue); font-weight: 600; }
+.topbar-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+
+/* ── Navigation button panel ── */
+.nav-panel {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.65rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.nav-btn {
+  flex-shrink: 0;
+  padding: 0.55rem 1.1rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.nav-btn:hover {
+  background: var(--surface3);
+  color: var(--text);
+  border-color: var(--blue);
+}
+
+.nav-btn.active {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border-color: var(--blue);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--blue-dim);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.25rem 1.5rem 2.5rem;
+  overflow-y: auto;
+}
+
+.view-pane { display: none; }
+.view-pane.active { display: block; }
+
+/* ── KPI cards ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  box-shadow: var(--shadow);
+}
+
+.kpi-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon.blue { background: var(--blue-dim); }
+.kpi-icon.yellow { background: var(--yellow-dim); }
+.kpi-icon.green { background: var(--green-dim); }
+.kpi-icon.red { background: var(--red-dim); }
+
+.kpi-v { font-size: 1.55rem; font-weight: 700; line-height: 1.1; }
+.kpi-l { color: var(--muted); font-size: 0.76rem; margin-top: 0.1rem; }
+
+/* ── Dashboard grid ── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.dash-card-wide { grid-column: span 1; }
+
+.card-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.card-hdr h3 { font-size: 0.9rem; font-weight: 600; }
+.card-hint { font-size: 0.75rem; color: var(--muted); }
+
+/* ── Rank list ── */
+.rank-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  background: var(--surface2);
+  border-radius: 8px;
+  font-size: 0.86rem;
+}
+
+.rank-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.rank-num.top { background: var(--blue-dim); color: var(--blue); }
+.rank-name { flex: 1; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-score { font-weight: 700; font-size: 0.95rem; }
+
+.rank-bar-wrap {
+  width: 60px;
+  height: 5px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rank-bar { height: 100%; border-radius: 3px; background: var(--blue); }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.data-table th, .data-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.data-table tbody tr:hover { background: var(--surface2); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.col-supplier { min-width: 140px; }
+.supplier-name { font-size: 0.92rem; color: var(--text); }
+
+.col-file {
+  font-size: 0.76rem;
+  color: var(--muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.b-major { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-minor { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-excellent { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.b-good { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-average { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-weak { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+
+/* ── Supplier cards ── */
+.supplier-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.sup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  border-right: 3px solid var(--blue);
+  box-shadow: var(--shadow);
+}
+
+.sup-file { font-size: 0.76rem; color: var(--blue); margin-top: 0.1rem; }
+.sup-index { font-size: 0.73rem; color: var(--muted); margin-left: 0.4rem; }
+.sup-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.65rem 0 0.85rem; font-size: 0.84rem; }
+.sup-stats span { color: var(--muted); }
+.sup-stats strong { color: var(--text); }
+
+.sup-hdr {
+  padding: 0.9rem 1.1rem;
+  background: var(--surface2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sup-name { font-weight: 700; font-size: 0.95rem; }
+.sup-meta { display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap; }
+.sup-body { padding: 0.9rem 1.1rem; display: none; }
+.sup-body.open { display: block; }
+
+.improve-list { margin: 0.65rem 0 0.85rem; padding-right: 1.15rem; color: var(--muted); font-size: 0.86rem; }
+.improve-list li { margin-bottom: 0.3rem; }
+
+.finding-item {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.finding-item:last-child { border-bottom: none; }
+.finding-q { color: var(--muted); font-size: 0.78rem; margin-bottom: 0.15rem; }
+.finding-t { color: var(--text); }
+
+/* ── Executive report ── */
+.executive-report {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow);
+}
+
+.executive-report h2 { font-size: 1.05rem; margin-bottom: 0.65rem; color: var(--blue); }
+.executive-report h3 { font-size: 0.92rem; margin: 0.85rem 0 0.45rem; }
+.executive-report p { margin-bottom: 0.55rem; color: var(--muted); }
+.executive-report ul { padding-right: 1.15rem; margin-bottom: 0.65rem; color: var(--text); }
+.executive-report li { margin-bottom: 0.3rem; }
+
+.ch-box { position: relative; height: 220px; }
+
+.parse-log { list-style: none; }
+.parse-log li {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.84rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.parse-log li:last-child { border-bottom: none; }
+.parse-log .ok { color: var(--green); }
+.parse-log .warn { color: var(--yellow); }
+.parse-log .err { color: var(--red); }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  z-index: 300;
+  box-shadow: var(--shadow);
+}
+
+.toast.ok { border-color: var(--green); color: var(--green); }
+.toast.err { border-color: var(--red); color: var(--red); }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr 1fr; }
+  .dash-card-wide { grid-column: span 2; }
+}
+
+@media (max-width: 860px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-card-wide { grid-column: span 1; }
+  .topbar { padding: 0.75rem 1rem; }
+  .nav-panel { padding: 0.55rem 1rem; }
+  .dashboard-content { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media print {
+  .app-header, .link-btn { display: none !important; }
+  #tabFiles { display: none !important; }
+  .view-pane { display: block !important; page-break-before: always; }
+  #tabDashboard { page-break-before: auto; }
+  body { background: #fff; color: #000; }
+  .dash-card, .executive-report, .data-table, .sup-card, .kpi-card { border-color: #ccc; box-shadow: none; }
+  .sup-body { display: block !important; }
+}
+
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Welcome / upload -->
+  <section id="sectionUpload" class="welcome-screen">
+    <div class="welcome-inner">
+      <div class="welcome-brand">
+        <div class="brand-icon">📊</div>
+        <h1>דשבורד <span>מבדקי הסמכה</span></h1>
+        <p>ניתוח, השוואה ודירוג ספקים · Excel · CSV · Word · PDF</p>
+      </div>
+
+      <div class="up-zone" id="dropZone">
+        <div class="up-icon">📁</div>
+        <p class="up-title">בחר תיקייה עם קבצי מבדק</p>
+        <p class="up-sub">גרור תיקייה לכאן, או לחץ לבחירה<br>לדוגמה: התיקייה <strong>דוחות ממצאים</strong></p>
+        <div class="up-actions">
+          <button type="button" class="btn-primary" id="btnPickFolder">בחר תיקייה</button>
+          <label class="btn-secondary">
+            בחר קבצים
+            <input type="file" id="fileInputFallback" multiple accept=".xlsx,.xls,.csv,.docx,.pdf" hidden>
+          </label>
+          <label class="btn-secondary">
+            בחר תיקייה (fallback)
+            <input type="file" id="folderInputFallback" webkitdirectory hidden>
+          </label>
+        </div>
+      </div>
+
+      <div id="settingsPanel" class="settings-panel hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBase" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajor" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinor" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellent" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGood" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverage" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettings">שמור הגדרות</button>
+      </div>
+
+      <div id="fileListWrap" class="file-list-wrap hidden">
+        <h3>קבצים שנמצאו</h3>
+        <ul id="fileList" class="file-list"></ul>
+        <button type="button" class="btn-primary" id="btnAnalyze">הרץ ניתוח</button>
+      </div>
+
+      <div id="parseErrorWrap" class="parse-error-wrap hidden">
+        <h3>⚠ לא נמצאו ממצאים</h3>
+        <p class="parse-error-hint">בדוק את לשונית "קבצים" לפרטים, או ודא שיש עמודות הערכה (מתאים / מינורי / מהותי).</p>
+        <ul id="parseErrorLog" class="parse-log"></ul>
+      </div>
+
+      <button type="button" class="btn-ghost btn-settings-welcome" id="btnSettings">⚙ הגדרות ציון</button>
+    </div>
+  </section>
+
+  <!-- Dashboard app -->
+  <div id="sectionApp" class="dashboard hidden">
+
+    <div class="app-header">
+    <header class="topbar">
+      <div class="topbar-start">
+        <span class="brand-dot"></span>
+        <div>
+          <h2 class="page-title" id="pageTitle">דשבורד</h2>
+          <p class="page-sub"><span id="appMeta">—</span> · <span id="pageSub">סקירה כללית של כל הספקים</span></p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn-secondary btn-sm" id="btnPrint">הדפס</button>
+        <button type="button" class="btn-secondary btn-sm" id="btnExportHtml">ייצוא HTML</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnSettingsApp" title="הגדרות">⚙</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnReset">↩ תיקייה חדשה</button>
+      </div>
+    </header>
+
+    <nav class="nav-panel" role="navigation" aria-label="ניווט מסכים">
+      <button type="button" class="nav-btn active" data-tab="dashboard">◉ דשבורד</button>
+      <button type="button" class="nav-btn" data-tab="detail">☰ פרוט ספקים</button>
+      <button type="button" class="nav-btn" data-tab="compare">⇅ טבלת השוואה</button>
+      <button type="button" class="nav-btn" data-tab="summary">✦ סיכום מנהלים</button>
+      <button type="button" class="nav-btn" data-tab="files">📄 קבצים</button>
+    </nav>
+    </div>
+
+    <div id="settingsPanelApp" class="settings-panel settings-inline hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBaseApp" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajorApp" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinorApp" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellentApp" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGoodApp" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverageApp" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettingsApp">שמור וחשב מחדש</button>
+      </div>
+
+      <main class="dashboard-content">
+
+        <!-- Dashboard overview -->
+        <div id="tabDashboard" class="view-pane active">
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <div class="dash-grid">
+            <div class="dash-card dash-card-wide">
+              <div class="card-hdr">
+                <h3>דירוג ספקים</h3>
+                <span class="card-hint">לפי ציון</span>
+              </div>
+              <div class="rank-list" id="rankList"></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>פילוח בעיות</h3></div>
+              <div class="ch-box"><canvas id="chartCategories"></canvas></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>התפלגות דירוגים</h3></div>
+              <div class="ch-box"><canvas id="chartRatings"></canvas></div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-hdr">
+              <h3>טבלת השוואה</h3>
+              <button type="button" class="link-btn" data-goto="compare">הצג מלא ←</button>
+            </div>
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTableDash">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supplier detail -->
+        <div id="tabDetail" class="view-pane">
+          <div id="supplierCards" class="supplier-cards"></div>
+        </div>
+
+        <!-- Full compare -->
+        <div id="tabCompare" class="view-pane">
+          <div class="kpi-grid" id="kpiGridCompare"></div>
+          <div class="dash-card">
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTable">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>תאריך מבדק</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>סה"כ</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                    <th>קובץ</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive summary -->
+        <div id="tabSummary" class="view-pane">
+          <div id="executiveReport" class="executive-report"></div>
+        </div>
+
+        <!-- Files log -->
+        <div id="tabFiles" class="view-pane">
+          <div class="dash-card">
+            <div class="card-hdr"><h3>יומן ניתוח קבצים</h3></div>
+            <ul id="parseLog" class="parse-log"></ul>
+          </div>
+        </div>
+
+      </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  , 'i'));
+  if (!m) return null;
+
+  const evaluation = m[1].replace(/\s+/g, ' ').trim();
+  if (isCompliantEvaluation(evaluation) || /^תקין$/i.test(evaluation)) return null;
+
+  const severity = parseEvaluation(evaluation);
+  if (!severity) return null;
+
+  let body = m[2].trim().replace(/^\.\s*/, '');
+
+  // Question number at end: "5" or "3.4" or "8.4.2 9" → take last number group
+  let questionId = '';
+  const endNum = body.match(/\s+(\d+(?:\.\d+)*)\s*$/);
+  if (endNum) {
+    questionId = endNum[1];
+    body = body.slice(0, endNum.index).trim();
+  }
+
+  // Remove trailing "V 8.4.2" section marker
+  body = body.replace(/\s+V\s+[\d.]+(?:\s+[\d.]+)?\s*$/i, '').trim();
+
+  const secM = body.match(/\b(\d+\.\d+(?:\.\d+)?)\b/);
+  const questionText = secM ? secM[1] : questionId;
+  const findingText = (body && body.length >= 4)
+    ? body
+    : (questionText ? `סעיף ${questionText} — ${evaluation}` : evaluation);
+
+  if (findingText.length < 2) return null;
+  return { questionId, questionText, findingText, severity };
+}
+
+/** LTR: "5 8.2.2 V ...text... מינורי x" */
+function parseLtrEvaluationLine(line) {
+  const evalRe = new RegExp(`(${EVAL_WORD})\\s*[Xx]?\\s*<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דשבורד מבדקי הסמכה | ספקים</title>
+  <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0b0f14;
+  --surface: #131920;
+  --surface2: #1a222d;
+  --surface3: #222c3a;
+  --border: #2a3544;
+  --text: #e8edf4;
+  --muted: #8494a7;
+  --blue: #4d9fff;
+  --blue-dim: #4d9fff22;
+  --green: #3ecf8e;
+  --green-dim: #3ecf8e22;
+  --yellow: #e6b422;
+  --yellow-dim: #e6b42222;
+  --red: #f05d5e;
+  --red-dim: #f05d5e22;
+  --purple: #a78bfa;
+  --sidebar-w: 240px;
+  --topbar-h: 64px;
+  --r: 10px;
+  --shadow: 0 4px 24px #00000055;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+
+/* ── Buttons ── */
+.btn-primary, .btn-secondary, .btn-ghost, .btn-icon {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary { background: var(--blue); color: #071018; font-weight: 700; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-icon { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 0.45rem 0.65rem; font-size: 1rem; display: none; }
+.btn-sm { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
+.btn-primary:hover, .btn-secondary:hover, .btn-ghost:hover, .btn-icon:hover { opacity: 0.88; }
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+}
+
+/* ── Welcome screen ── */
+.welcome-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, #4d9fff18, transparent),
+    var(--bg);
+}
+
+.welcome-inner {
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+}
+
+.welcome-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.welcome-brand h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.35rem; }
+.welcome-brand h1 span { color: var(--blue); }
+.welcome-brand p { color: var(--muted); font-size: 0.9rem; }
+
+.btn-settings-welcome {
+  display: block;
+  margin: 1.25rem auto 0;
+}
+
+.up-zone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.up-zone.over { border-color: var(--blue); background: var(--surface2); }
+.up-icon { font-size: 2.25rem; margin-bottom: 0.65rem; }
+.up-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+.up-sub { color: var(--muted); font-size: 0.86rem; margin-bottom: 1.1rem; line-height: 1.6; }
+.up-actions { display: flex; gap: 0.55rem; justify-content: center; flex-wrap: wrap; }
+
+.settings-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem;
+}
+
+.settings-inline { margin: 0 1.5rem 1rem; }
+
+.settings-panel h3 { font-size: 0.92rem; margin-bottom: 0.85rem; }
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.settings-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.settings-grid input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  font-family: inherit;
+}
+
+.file-list-wrap { margin-top: 1.5rem; }
+.file-list-wrap h3 { font-size: 0.92rem; margin-bottom: 0.65rem; }
+.file-list { list-style: none; margin-bottom: 1rem; max-height: 200px; overflow-y: auto; }
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+  font-size: 0.84rem;
+}
+
+.file-list .ext { color: var(--muted); font-size: 0.74rem; }
+
+.parse-error-wrap {
+  margin-top: 1.25rem;
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+}
+
+.parse-error-wrap h3 { font-size: 0.92rem; color: var(--red); margin-bottom: 0.4rem; }
+.parse-error-hint { font-size: 0.84rem; color: var(--muted); margin-bottom: 0.65rem; }
+
+/* ── Dashboard shell ── */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  flex-shrink: 0;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+}
+
+.topbar {
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.topbar-start { display: flex; align-items: center; gap: 0.85rem; }
+.page-title { font-size: 1.15rem; font-weight: 700; }
+.page-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+#appMeta { color: var(--blue); font-weight: 600; }
+.topbar-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+
+/* ── Navigation button panel ── */
+.nav-panel {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.65rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.nav-btn {
+  flex-shrink: 0;
+  padding: 0.55rem 1.1rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.nav-btn:hover {
+  background: var(--surface3);
+  color: var(--text);
+  border-color: var(--blue);
+}
+
+.nav-btn.active {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border-color: var(--blue);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--blue-dim);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.25rem 1.5rem 2.5rem;
+  overflow-y: auto;
+}
+
+.view-pane { display: none; }
+.view-pane.active { display: block; }
+
+/* ── KPI cards ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  box-shadow: var(--shadow);
+}
+
+.kpi-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon.blue { background: var(--blue-dim); }
+.kpi-icon.yellow { background: var(--yellow-dim); }
+.kpi-icon.green { background: var(--green-dim); }
+.kpi-icon.red { background: var(--red-dim); }
+
+.kpi-v { font-size: 1.55rem; font-weight: 700; line-height: 1.1; }
+.kpi-l { color: var(--muted); font-size: 0.76rem; margin-top: 0.1rem; }
+
+/* ── Dashboard grid ── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.dash-card-wide { grid-column: span 1; }
+
+.card-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.card-hdr h3 { font-size: 0.9rem; font-weight: 600; }
+.card-hint { font-size: 0.75rem; color: var(--muted); }
+
+/* ── Rank list ── */
+.rank-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  background: var(--surface2);
+  border-radius: 8px;
+  font-size: 0.86rem;
+}
+
+.rank-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.rank-num.top { background: var(--blue-dim); color: var(--blue); }
+.rank-name { flex: 1; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-score { font-weight: 700; font-size: 0.95rem; }
+
+.rank-bar-wrap {
+  width: 60px;
+  height: 5px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rank-bar { height: 100%; border-radius: 3px; background: var(--blue); }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.data-table th, .data-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.data-table tbody tr:hover { background: var(--surface2); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.col-supplier { min-width: 140px; }
+.supplier-name { font-size: 0.92rem; color: var(--text); }
+
+.col-file {
+  font-size: 0.76rem;
+  color: var(--muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.b-major { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-minor { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-excellent { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.b-good { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.b-average { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.b-weak { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+
+/* ── Supplier cards ── */
+.supplier-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.sup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  border-right: 3px solid var(--blue);
+  box-shadow: var(--shadow);
+}
+
+.sup-file { font-size: 0.76rem; color: var(--blue); margin-top: 0.1rem; }
+.sup-index { font-size: 0.73rem; color: var(--muted); margin-left: 0.4rem; }
+.sup-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.65rem 0 0.85rem; font-size: 0.84rem; }
+.sup-stats span { color: var(--muted); }
+.sup-stats strong { color: var(--text); }
+
+.sup-hdr {
+  padding: 0.9rem 1.1rem;
+  background: var(--surface2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sup-name { font-weight: 700; font-size: 0.95rem; }
+.sup-meta { display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap; }
+.sup-body { padding: 0.9rem 1.1rem; display: none; }
+.sup-body.open { display: block; }
+
+.improve-list { margin: 0.65rem 0 0.85rem; padding-right: 1.15rem; color: var(--muted); font-size: 0.86rem; }
+.improve-list li { margin-bottom: 0.3rem; }
+
+.finding-item {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.finding-item:last-child { border-bottom: none; }
+.finding-q { color: var(--muted); font-size: 0.78rem; margin-bottom: 0.15rem; }
+.finding-t { color: var(--text); }
+
+/* ── Executive report ── */
+.executive-report {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow);
+}
+
+.executive-report h2 { font-size: 1.05rem; margin-bottom: 0.65rem; color: var(--blue); }
+.executive-report h3 { font-size: 0.92rem; margin: 0.85rem 0 0.45rem; }
+.executive-report p { margin-bottom: 0.55rem; color: var(--muted); }
+.executive-report ul { padding-right: 1.15rem; margin-bottom: 0.65rem; color: var(--text); }
+.executive-report li { margin-bottom: 0.3rem; }
+
+.ch-box { position: relative; height: 220px; }
+
+.parse-log { list-style: none; }
+.parse-log li {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.84rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.parse-log li:last-child { border-bottom: none; }
+.parse-log .ok { color: var(--green); }
+.parse-log .warn { color: var(--yellow); }
+.parse-log .err { color: var(--red); }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  z-index: 300;
+  box-shadow: var(--shadow);
+}
+
+.toast.ok { border-color: var(--green); color: var(--green); }
+.toast.err { border-color: var(--red); color: var(--red); }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr 1fr; }
+  .dash-card-wide { grid-column: span 2; }
+}
+
+@media (max-width: 860px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-card-wide { grid-column: span 1; }
+  .topbar { padding: 0.75rem 1rem; }
+  .nav-panel { padding: 0.55rem 1rem; }
+  .dashboard-content { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media print {
+  .app-header, .link-btn { display: none !important; }
+  #tabFiles { display: none !important; }
+  .view-pane { display: block !important; page-break-before: always; }
+  #tabDashboard { page-break-before: auto; }
+  body { background: #fff; color: #000; }
+  .dash-card, .executive-report, .data-table, .sup-card, .kpi-card { border-color: #ccc; box-shadow: none; }
+  .sup-body { display: block !important; }
+}
+
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Welcome / upload -->
+  <section id="sectionUpload" class="welcome-screen">
+    <div class="welcome-inner">
+      <div class="welcome-brand">
+        <div class="brand-icon">📊</div>
+        <h1>דשבורד <span>מבדקי הסמכה</span></h1>
+        <p>ניתוח, השוואה ודירוג ספקים · Excel · CSV · Word · PDF</p>
+      </div>
+
+      <div class="up-zone" id="dropZone">
+        <div class="up-icon">📁</div>
+        <p class="up-title">בחר תיקייה עם קבצי מבדק</p>
+        <p class="up-sub">גרור תיקייה לכאן, או לחץ לבחירה<br>לדוגמה: התיקייה <strong>דוחות ממצאים</strong></p>
+        <div class="up-actions">
+          <button type="button" class="btn-primary" id="btnPickFolder">בחר תיקייה</button>
+          <label class="btn-secondary">
+            בחר קבצים
+            <input type="file" id="fileInputFallback" multiple accept=".xlsx,.xls,.csv,.docx,.pdf" hidden>
+          </label>
+          <label class="btn-secondary">
+            בחר תיקייה (fallback)
+            <input type="file" id="folderInputFallback" webkitdirectory hidden>
+          </label>
+        </div>
+      </div>
+
+      <div id="settingsPanel" class="settings-panel hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBase" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajor" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinor" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellent" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGood" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverage" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettings">שמור הגדרות</button>
+      </div>
+
+      <div id="fileListWrap" class="file-list-wrap hidden">
+        <h3>קבצים שנמצאו</h3>
+        <ul id="fileList" class="file-list"></ul>
+        <button type="button" class="btn-primary" id="btnAnalyze">הרץ ניתוח</button>
+      </div>
+
+      <div id="parseErrorWrap" class="parse-error-wrap hidden">
+        <h3>⚠ לא נמצאו ממצאים</h3>
+        <p class="parse-error-hint">בדוק את לשונית "קבצים" לפרטים, או ודא שיש עמודות הערכה (מתאים / מינורי / מהותי).</p>
+        <ul id="parseErrorLog" class="parse-log"></ul>
+      </div>
+
+      <button type="button" class="btn-ghost btn-settings-welcome" id="btnSettings">⚙ הגדרות ציון</button>
+    </div>
+  </section>
+
+  <!-- Dashboard app -->
+  <div id="sectionApp" class="dashboard hidden">
+
+    <div class="app-header">
+    <header class="topbar">
+      <div class="topbar-start">
+        <span class="brand-dot"></span>
+        <div>
+          <h2 class="page-title" id="pageTitle">דשבורד</h2>
+          <p class="page-sub"><span id="appMeta">—</span> · <span id="pageSub">סקירה כללית של כל הספקים</span></p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn-secondary btn-sm" id="btnPrint">הדפס</button>
+        <button type="button" class="btn-secondary btn-sm" id="btnExportHtml">ייצוא HTML</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnSettingsApp" title="הגדרות">⚙</button>
+        <button type="button" class="btn-ghost btn-sm" id="btnReset">↩ תיקייה חדשה</button>
+      </div>
+    </header>
+
+    <nav class="nav-panel" role="navigation" aria-label="ניווט מסכים">
+      <button type="button" class="nav-btn active" data-tab="dashboard">◉ דשבורד</button>
+      <button type="button" class="nav-btn" data-tab="detail">☰ פרוט ספקים</button>
+      <button type="button" class="nav-btn" data-tab="compare">⇅ טבלת השוואה</button>
+      <button type="button" class="nav-btn" data-tab="summary">✦ סיכום מנהלים</button>
+      <button type="button" class="nav-btn" data-tab="files">📄 קבצים</button>
+    </nav>
+    </div>
+
+    <div id="settingsPanelApp" class="settings-panel settings-inline hidden">
+        <h3>הגדרות חישוב ציון</h3>
+        <div class="settings-grid">
+          <label>ציון בסיס<input type="number" id="cfgBaseApp" value="100" min="1" max="100"></label>
+          <label>ניכוי Major<input type="number" id="cfgMajorApp" value="10" min="0" max="50"></label>
+          <label>ניכוי Minor<input type="number" id="cfgMinorApp" value="3" min="0" max="20"></label>
+          <label>מצוין מ-<input type="number" id="cfgExcellentApp" value="90" min="0" max="100"></label>
+          <label>טוב מ-<input type="number" id="cfgGoodApp" value="75" min="0" max="100"></label>
+          <label>בינוני מ-<input type="number" id="cfgAverageApp" value="55" min="0" max="100"></label>
+        </div>
+        <button type="button" class="btn-primary btn-sm" id="btnSaveSettingsApp">שמור וחשב מחדש</button>
+      </div>
+
+      <main class="dashboard-content">
+
+        <!-- Dashboard overview -->
+        <div id="tabDashboard" class="view-pane active">
+          <div class="kpi-grid" id="kpiGrid"></div>
+
+          <div class="dash-grid">
+            <div class="dash-card dash-card-wide">
+              <div class="card-hdr">
+                <h3>דירוג ספקים</h3>
+                <span class="card-hint">לפי ציון</span>
+              </div>
+              <div class="rank-list" id="rankList"></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>פילוח בעיות</h3></div>
+              <div class="ch-box"><canvas id="chartCategories"></canvas></div>
+            </div>
+
+            <div class="dash-card">
+              <div class="card-hdr"><h3>התפלגות דירוגים</h3></div>
+              <div class="ch-box"><canvas id="chartRatings"></canvas></div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-hdr">
+              <h3>טבלת השוואה</h3>
+              <button type="button" class="link-btn" data-goto="compare">הצג מלא ←</button>
+            </div>
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTableDash">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supplier detail -->
+        <div id="tabDetail" class="view-pane">
+          <div id="supplierCards" class="supplier-cards"></div>
+        </div>
+
+        <!-- Full compare -->
+        <div id="tabCompare" class="view-pane">
+          <div class="kpi-grid" id="kpiGridCompare"></div>
+          <div class="dash-card">
+            <div class="tbl-wrap">
+              <table class="data-table" id="compareTable">
+                <thead>
+                  <tr>
+                    <th>שם הספק</th>
+                    <th>#</th>
+                    <th>תאריך מבדק</th>
+                    <th>Major</th>
+                    <th>Minor</th>
+                    <th>סה"כ</th>
+                    <th>ציון</th>
+                    <th>דירוג</th>
+                    <th>קובץ</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive summary -->
+        <div id="tabSummary" class="view-pane">
+          <div id="executiveReport" class="executive-report"></div>
+        </div>
+
+        <!-- Files log -->
+        <div id="tabFiles" class="view-pane">
+          <div class="dash-card">
+            <div class="card-hdr"><h3>יומן ניתוח קבצים</h3></div>
+            <ul id="parseLog" class="parse-log"></ul>
+          </div>
+        </div>
+
+      </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  , 'i');
+  const evalMatch = line.match(evalRe);
+  if (!evalMatch) return null;
+
+  const evaluation = evalMatch[1].replace(/\s+/g, ' ').trim();
+  if (isCompliantEvaluation(evaluation) || /^תקין$/i.test(evaluation)) return null;
+
+  const severity = parseEvaluation(evaluation);
+  if (!severity) return null;
+
+  const mainM = line.match(/^(\d{1,2})\s+([\d.]+)\s*(?:V|v|N\s*\/\s*A|NA)?\s*(.*)$/i);
+  if (mainM) {
+    let body = mainM[3].replace(evalRe, '').trim();
+    body = body.replace(/\s+(V|v|N\s*\/\s*A)\s+/g, ' ').trim();
+    return {
+      questionId: mainM[1],
+      questionText: mainM[2],
+      findingText: body || mainM[2],
+      severity,
+    };
+  }
+
+  const subM = line.match(/^(\d+\.\d+)\s+(.+)$/);
+  if (subM) {
+    return {
+      questionId: subM[1],
+      questionText: subM[1],
+      findingText: subM[2].replace(evalRe, '').trim() || subM[1],
+      severity,
+    };
+  }
+  return null;
+}
+
+/** Parse lines from English KASET audit PDFs. */
+function parseKasetEnglishLines(lines, meta) {
+  const findings = [];
+  if (!lines.some(l => /KASET|AS9100|Supplier Type/i.test(l))) return findings;
+
+  for (const line of lines) {
+    if (line.length > 400) continue;
+    const majorM = line.match(/^[\d#.\s,]+?\s+X\s+(.{15,})$/i);
+    if (majorM) {
+      const txt = majorM[1].trim();
+      if (!/^(Page|KASET|Report|Audit|Sep\.)/i.test(txt)) {
+        const secM = line.match(/(\d+(?:\.\d+)+)/);
+        findings.push(createFinding({
+          ...meta,
+          questionId: secM ? secM[1] : '',
+          questionText: line.split(/\s+X\s+/)[0].trim().slice(0, 80),
+          findingText: txt.slice(0, 500),
+          severity: 'major',
+        }));
+      }
+    }
+  }
+  return findings;
+}
+
+function extractSupplier(text, filename) {
+  const fromFile = cleanSupplierFromFilename(filename);
+  const fromText = extractSupplierFromText(text);
+
+  if (fromText && !isSupplierCode(fromText) && fromText.length > 4) return fromText;
+  if (fromFile && fromFile.length > 2) return fromFile;
+  return fromText || fromFile;
+}
+
+function extractSupplierFromText(text) {
+  const patterns = [
+    /יחידה\s*נסקרת\s+(.+?)\s+קוד\s*ספק/i,
+    /שם\s*ספק\s+(.+?)\s+קוד\s*ספק/i,
+    /Supplier\s*Name\s+(.+?)(?:\s+Supplier\s*Type|\s+Address)/i,
+    /(מסד\s*זילבר\s*תעשיה\s*מכנית[^\n.]{0,30})/i,
+    /(א\s*\.\s*ת\s*\.\s*הנדסת\s*מערכות[^\n.]{0,25})/i,
+  ];
+  for (const re of patterns) {
+    const m = text.match(re);
+    if (m) {
+      const name = m[1].replace(/\s+/g, ' ').trim().slice(0, 80);
+      if (name.length > 2 && !isSupplierCode(name)) return name;
+    }
+  }
+  return null;
+}
+
+function isSupplierCode(s) {
+  const t = String(s).trim();
+  return /^[A-Z]{1,4}\d{2,6}$/i.test(t) || /^I[A-Z]?\d+$/i.test(t);
+}
+
+function cleanSupplierFromFilename(filename) {
+  let name = filename
+    .replace(/\s*\(\d+\)\.pdf$/i, '')
+    .replace(/\.pdf$/i, '');
+
+  // Known patterns from filenames
+  const known = [
+    [/^דוח\s*מבדק\s+(.+)$/i, 1],
+    [/^סיכום\s*מבדק\s+(.+)$/i, 1],
+    [/^דוח\s*תיקוף\s*תהליך\s*מיוחד\s*[-–]\s*(.+)$/i, 1],
+    [/^דוח\s*ממצאי\s*מבדק\s*הסמכה\s+(.+?)\s+\d{2}[-./]\d{2}[-./]\d{4}/i, 1],
+    [/^מבדק\s*השלמה\s*.*ל[-–]?\s*(.+?)\s+\d{2}[-./]\d{2}[-./]\d{4}/i, 1],
+    [/^Quality System Supplier Audit Report\s*[-–]\s*(.+)$/i, 1],
+    [/^Winkelmann\s*-\s*Audit Report/i, () => 'Winkelmann'],
+  ];
+  for (const [re, g] of known) {
+    const m = name.match(re);
+    if (m) return typeof g === 'function' ? g() : m[g].trim();
+  }
+
+  return name
+    .replace(/\s+\d{1,2}[-./]\d{1,2}[-./]\d{2,4}\s*$/g, '')
+    .trim() || null;
+}
+
+function extractDate(text) {
+  const patterns = [
+    /תאריך\s*מבדק\s+(\d{1,2}[./]\d{1,2}[./]\d{2,4})/i,
+    /Audit\s*Date\s+(\d{1,2}[./-]\d{1,2}(?:\s*[-–]\s*\d{1,2}[./-]\d{1,2})?[./-]?\d{0,4})/i,
+    /בתאריך\s+(\d{1,2}[./]\d{1,2}[./]\d{2,4})/i,
+    /(\d{1,2}[./]\d{1,2}[./]\d{4})/,
+  ];
+  for (const re of patterns) {
+    const m = text.match(re);
+    if (m) return normalizeDate(m[1].split(/\s*[-–]\s*/)[0]) || null;
+  }
+  return null;
+}
+
+function dedupeFindings(findings) {
+  const seen = new Set();
+  return findings.filter(f => {
+    const key = `${f.questionId}|${f.severity}|${f.findingText.slice(0, 80)}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function parseAllPdfLines(lines, meta) {
+  let findings = parseIaiHebrewLines(lines, meta);
+  findings = findings.concat(parseKasetEnglishLines(lines, meta));
+  return dedupeFindings(findings);
+}
+
+
+// --- js/parsers/excel.js ---
+'use strict';
+
+const SUPPORTED = new Set(['.xlsx', '.xls', '.csv', '.docx', '.pdf']);
+
+/**
+ * Parse Excel workbook ArrayBuffer.
+ */
+function parseExcelBuffer(buffer, filename, folderMeta = {}) {
+  if (typeof XLSX === 'undefined') throw new Error('SheetJS לא נטען');
+  const wb = XLSX.read(buffer, { type: 'array', cellDates: true });
+  const fileMeta = parseFilenameMeta(filename);
+  const meta = {
+    supplier: folderMeta.supplier || fileMeta.supplier,
+    auditDate: folderMeta.auditDate || fileMeta.auditDate,
+    sourceFile: filename,
+  };
+
+  let allFindings = [];
+
+  for (const sheetName of wb.SheetNames) {
+    const sheet = wb.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false });
+    if (!rows.length) continue;
+
+    const headerIdx = findHeaderRow(rows);
+    const mapping = detectColumns(rows[headerIdx]);
+    if (Object.keys(mapping).length < 2) continue;
+
+    const sheetMeta = { ...meta };
+    if (!sheetMeta.supplier && wb.SheetNames.length > 1 && !looksLikeGenericSheet(sheetName)) {
+      sheetMeta.supplier = sheetName.trim();
+    }
+
+    const findings = rowsToFindings(rows, headerIdx, mapping, sheetMeta);
+    allFindings = allFindings.concat(findings);
+  }
+
+  // Scan first rows for supplier/date metadata
+  if (wb.SheetNames.length) {
+    const firstSheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
+    const extraMeta = extractSheetMeta(rows.slice(0, 15));
+    allFindings = allFindings.map(f => ({
+      ...f,
+      supplier: f.supplier === 'לא ידוע' || !f.supplier ? (extraMeta.supplier || meta.supplier || f.supplier) : f.supplier,
+      auditDate: f.auditDate || extraMeta.auditDate || meta.auditDate,
+    }));
+  }
+
+  return { findings: allFindings, warnings: allFindings.length ? [] : ['לא נמצאו ממצאים — בדוק מבנה עמודות'] };
+}
+
+function looksLikeGenericSheet(name) {
+  return /^(sheet|גיליון|data|table|table\d+)$/i.test(name.trim());
+}
+
+function extractSheetMeta(rows) {
+  const meta = { supplier: null, auditDate: null };
+  for (const row of rows) {
+    if (!Array.isArray(row)) continue;
+    for (let i = 0; i < row.length - 1; i++) {
+      const label = String(row[i] || '').toLowerCase();
+      const val = String(row[i + 1] || '').trim();
+      if (!val) continue;
+      if (/supplier|ספק|vendor|company|חברה/.test(label) && !meta.supplier) meta.supplier = val;
+      if (/date|תאריך|audit/.test(label) && !meta.auditDate) meta.auditDate = normalizeDate(val);
+    }
+  }
+  return meta;
+}
+
+
+
+// --- js/parsers/csv.js ---
+'use strict';
+
+/**
+ * Parse CSV text to findings.
+ */
+function parseCsvText(text, filename, folderMeta = {}) {
+  const rows = parseCsvRows(text);
+  if (!rows.length) return { findings: [], warnings: ['קובץ CSV ריק'] };
+
+  const fileMeta = parseFilenameMeta(filename);
+  const meta = {
+    supplier: folderMeta.supplier || fileMeta.supplier,
+    auditDate: folderMeta.auditDate || fileMeta.auditDate,
+    sourceFile: filename,
+  };
+
+  const headerIdx = findHeaderRow(rows);
+  const mapping = detectColumns(rows[headerIdx]);
+  if (Object.keys(mapping).length < 2) {
+    return { findings: [], warnings: ['לא זוהו עמודות מתאימות ב-CSV'] };
+  }
+
+  const findings = rowsToFindings(rows, headerIdx, mapping, meta);
+  return {
+    findings,
+    warnings: findings.length ? [] : ['לא נמצאו ממצאים ב-CSV'],
+  };
+}
+
+/**
+ * Simple CSV parser with quoted fields support.
+ */
+function parseCsvRows(text) {
+  const lines = text.replace(/^\uFEFF/, '').split(/\r?\n/);
+  return lines
+    .filter(l => l.trim())
+    .map(parseCsvLine);
+}
+
+function parseCsvLine(line) {
+  const out = [];
+  let cur = '';
+  let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQ && line[i + 1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if ((c === ',' || c === ';') && !inQ) {
+      out.push(cur);
+      cur = '';
+    } else {
+      cur += c;
+    }
+  }
+  out.push(cur);
+  return out.map(s => s.trim());
+}
+
+
+// --- js/parsers/word.js ---
+'use strict';
+
+/**
+ * Parse Word .docx ArrayBuffer via mammoth.
+ */
+async function parseWordBuffer(buffer, filename, folderMeta = {}) {
+  if (typeof mammoth === 'undefined') throw new Error('mammoth.js לא נטען');
+
+  const fileMeta = parseFilenameMeta(filename);
+  const meta = {
+    supplier: folderMeta.supplier || fileMeta.supplier,
+    auditDate: folderMeta.auditDate || fileMeta.auditDate,
+    sourceFile: filename,
+  };
+
+  const warnings = [];
+  let findings = [];
+
+  const htmlResult = await mammoth.convertToHtml({ arrayBuffer: buffer });
+  const html = htmlResult.value || '';
+  warnings.push(...(htmlResult.messages || []).map(m => m.message));
+
+  findings = findings.concat(parseHtmlTables(html, meta));
+
+  const textResult = await mammoth.extractRawText({ arrayBuffer: buffer });
+  const text = textResult.value || '';
+  meta.supplier = meta.supplier || extractMetaFromText(text, 'supplier');
+  meta.auditDate = meta.auditDate || extractMetaFromText(text, 'date');
+
+  if (!findings.length) {
+    findings = parseFreeTextFindings(text, meta);
+    if (findings.length) warnings.push('Word: ניתוח טקסט חופשי (לא טבלה)');
+  }
+
+  findings = applyMeta(findings, meta);
+  return {
+    findings,
+    warnings: findings.length ? warnings : [...warnings, 'לא נמצאו ממצאים ב-Word'],
+  };
+}
+
+function parseHtmlTables(html, meta) {
+  const findings = [];
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const tables = doc.querySelectorAll('table');
+
+  for (const table of tables) {
+    const rows = [...table.querySelectorAll('tr')].map(tr =>
+      [...tr.querySelectorAll('th,td')].map(c => c.textContent.trim())
+    );
+    if (rows.length < 2) continue;
+
+    let headerIdx = 0;
+    let bestMap = {};
+    for (let i = 0; i < Math.min(3, rows.length); i++) {
+      const m = detectColumns(rows[i]);
+      if (Object.keys(m).length > Object.keys(bestMap).length) {
+        bestMap = m;
+        headerIdx = i;
+      }
+    }
+    if (Object.keys(bestMap).length < 2) continue;
+    findings.push(...rowsToFindings(rows, headerIdx, bestMap, meta));
+  }
+  return findings;
+}
+
+function parseFreeTextFindings(text, meta) {
+  const findings = [];
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const majorMatch = line.match(/(?:major|משמעותי|עיקרי|מהותי|ממצא עיקרי|לא מתאים)\s*[:\-–]?\s*(.+)/i);
+    const minorMatch = line.match(/(?:minor|משני|קל|מינורי|ממצא משני)\s*[:\-–]?\s*(.+)/i);
+    if (majorMatch) {
+      findings.push(createFinding({
+        ...meta,
+        findingText: majorMatch[1].trim(),
+        questionText: lines[i - 1]?.match(/^\d+[\.)]/) ? lines[i - 1] : '',
+        severity: 'major',
+      }));
+    } else if (minorMatch) {
+      findings.push(createFinding({
+        ...meta,
+        findingText: minorMatch[1].trim(),
+        questionText: lines[i - 1]?.match(/^\d+[\.)]/) ? lines[i - 1] : '',
+        severity: 'minor',
+      }));
+    }
+  }
+  return findings;
+}
+
+function extractMetaFromText(text, type) {
+  const lines = text.split(/\r?\n/);
+  for (const line of lines.slice(0, 30)) {
+    if (type === 'supplier') {
+      const m = line.match(/(?:supplier|vendor|ספק|חברה)\s*[:\-–]\s*(.+)/i);
+      if (m) return m[1].trim();
+    }
+    if (type === 'date') {
+      const m = line.match(/(?:audit date|date|תאריך(?: מבדק)?)\s*[:\-–]\s*(.+)/i);
+      if (m) return normalizeDate(m[1].trim());
+    }
+  }
+  return null;
+}
+
+
+// --- js/parsers/pdf.js ---
+'use strict';
+
+let pdfjsLib = null;
+
+async function getPdfJs() {
+  if (pdfjsLib) return pdfjsLib;
+  pdfjsLib = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.min.mjs');
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
+  return pdfjsLib;
+}
+
+async function parsePdfBuffer(buffer, filename, folderMeta = {}) {
+  const lib = await getPdfJs();
+  const data = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+  const meta = {
+    supplier: folderMeta.supplier || null,
+    auditDate: null,
+    sourceFile: filename,
+  };
+
+  const pdf = await lib.getDocument({ data }).promise;
+  const lines = await extractLinesFromPdf(pdf);
+  const fullText = lines.join('\n');
+
+  meta.supplier = meta.supplier || extractSupplier(fullText, filename);
+  meta.auditDate = extractDate(fullText);
+
+  let findings = parseAllPdfLines(lines, meta);
+  findings = applyMeta(findings, meta);
+
+  const warnings = findings.length
+    ? ['PDF: נותח לפי מבנה דוח תע"א / KASET']
+    : ['PDF: לא זוהו ממצאים — ייתכן שמבנה הדוח שונה'];
+
+  return { findings, warnings };
+}
+
+
+// --- js/folder.js ---
+'use strict';
+
+const EXTENSIONS = ['.xlsx', '.xls', '.csv', '.docx', '.pdf'];
+
+/**
+ * @typedef {Object} ScannedFile
+ * @property {string} name
+ * @property {string} path
+ * @property {string} ext
+ * @property {ArrayBuffer} buffer
+ * @property {string|null} folderSupplier
+ */
+
+/**
+ * Pick folder via File System Access API.
+ */
+async function pickFolder() {
+  if (!window.showDirectoryPicker) {
+    throw new Error('FOLDER_API_UNAVAILABLE');
+  }
+  const dirHandle = await window.showDirectoryPicker({ mode: 'read' });
+  return scanDirectoryHandle(dirHandle, dirHandle.name);
+}
+
+/**
+ * Recursively scan directory handle.
+ */
+async function scanDirectoryHandle(dirHandle, basePath = '') {
+  const files = [];
+  for await (const [name, handle] of dirHandle.entries()) {
+    const relPath = basePath ? `${basePath}/${name}` : name;
+    if (handle.kind === 'directory') {
+      const sub = await scanDirectoryHandle(handle, relPath);
+      files.push(...sub);
+    } else if (handle.kind === 'file') {
+      const ext = getExt(name);
+      if (!EXTENSIONS.includes(ext)) continue;
+      const file = await handle.getFile();
+      const buffer = await file.arrayBuffer();
+      const parts = relPath.split('/');
+      const folderSupplier = parts.length > 1 ? parts[parts.length - 2] : null;
+      files.push({
+        name,
+        path: relPath,
+        ext,
+        buffer,
+        folderSupplier: folderSupplier && !looksLikeGenericFolder(folderSupplier) ? folderSupplier : null,
+      });
+    }
+  }
+  return files;
+}
+
+/**
+ * Convert FileList / input files to ScannedFile[].
+ */
+async function filesFromInput(fileList) {
+  const files = [];
+  for (const file of fileList) {
+    const ext = getExt(file.name);
+    if (!EXTENSIONS.includes(ext)) continue;
+    const rel = file.webkitRelativePath || file.name;
+    const parts = rel.split('/');
+    const folderSupplier = parts.length > 1 ? parts[parts.length - 2] : null;
+    files.push({
+      name: file.name,
+      path: rel,
+      ext,
+      buffer: await file.arrayBuffer(),
+      folderSupplier: folderSupplier && !looksLikeGenericFolder(folderSupplier) ? folderSupplier : null,
+    });
+  }
+  return files;
+}
+
+function getExt(name) {
+  const i = name.lastIndexOf('.');
+  return i >= 0 ? name.slice(i).toLowerCase() : '';
+}
+
+function looksLikeGenericFolder(name) {
+  return /^(samples|data|files|docs|documents|מבדקים|קבצים)$/i.test(name.trim());
+}
+
+
+
+// --- js/scoring.js ---
+'use strict';
+
+const DEFAULT_CONFIG = {
+  baseScore: 100,
+  majorPenalty: 10,
+  minorPenalty: 3,
+  excellentMin: 90,
+  goodMin: 75,
+  averageMin: 55,
+};
+
+const STORAGE_KEY = 'supplier_audit_scoring';
+
+function loadScoringConfig() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
+  } catch (_) { /* ignore */ }
+  return { ...DEFAULT_CONFIG };
+}
+
+function saveScoringConfig(cfg) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+}
+
+function getDefaultConfig() {
+  return { ...DEFAULT_CONFIG };
+}
+
+/**
+ * Calculate score from major/minor counts.
+ */
+function calculateScore(majorCount, minorCount, config = loadScoringConfig()) {
+  const raw = config.baseScore
+    - majorCount * config.majorPenalty
+    - minorCount * config.minorPenalty;
+  return Math.max(0, Math.round(raw));
+}
+
+/**
+ * Map score to Hebrew rating label.
+ */
+function scoreToRating(score, config = loadScoringConfig()) {
+  if (score >= config.excellentMin) return { key: 'excellent', label: 'מצוין', badge: 'b-excellent' };
+  if (score >= config.goodMin) return { key: 'good', label: 'טוב', badge: 'b-good' };
+  if (score >= config.averageMin) return { key: 'average', label: 'בינוני', badge: 'b-average' };
+  return { key: 'weak', label: 'חלש', badge: 'b-weak' };
+}
+
+/**
+ * Build supplier summary from findings array.
+ */
+function summarizeSupplier(supplierName, findings, config) {
+  const majors = findings.filter(f => f.severity === 'major');
+  const minors = findings.filter(f => f.severity === 'minor');
+  const dates = findings.map(f => f.auditDate).filter(Boolean);
+  const auditDate = dates.sort().reverse()[0] || null;
+  const score = calculateScore(majors.length, minors.length, config);
+  const rating = scoreToRating(score, config);
+
+  const catCount = {};
+  for (const f of majors) {
+    catCount[f.category] = (catCount[f.category] || 0) + 1;
+  }
+  const improveAreas = Object.entries(catCount)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([cat, n]) => ({ category: cat, count: n }));
+
+  return {
+    supplier: supplierName,
+    auditDate,
+    majorCount: majors.length,
+    minorCount: minors.length,
+    totalCount: findings.length,
+    score,
+    rating,
+    majors,
+    minors,
+    improveAreas,
+    findings,
+  };
+}
+
+/**
+ * Summarize one report file = one supplier (each file is a separate audit).
+ */
+function summarizeBySourceFile(findings, config = loadScoringConfig()) {
+  const byFile = new Map();
+  for (const f of findings) {
+    const k = f.sourceFile || 'לא ידוע';
+    if (!byFile.has(k)) byFile.set(k, []);
+    byFile.get(k).push(f);
+  }
+
+  const summaries = [];
+  for (const [sourceFile, list] of byFile) {
+    const supplierName = resolveSupplierDisplayName(sourceFile, list);
+    const s = summarizeSupplier(supplierName, list, config);
+    s.sourceFile = sourceFile;
+    s.sourceFileLabel = sourceFile.split(/[/\\]/).pop() || sourceFile;
+    summaries.push(s);
+  }
+  summaries.sort((a, b) => b.score - a.score || a.supplier.localeCompare(b.supplier, 'he'));
+  return summaries;
+}
+
+/** Prefer readable supplier name from findings, then filename heuristics. */
+function resolveSupplierDisplayName(sourceFile, findings) {
+  const fileLabel = sourceFile.split(/[/\\]/).pop() || sourceFile;
+
+  for (const f of findings) {
+    const name = String(f.supplier || '').trim();
+    if (name && name !== 'לא ידוע' && !isSupplierCode(name)) return name;
+  }
+
+  const fromPdfName = cleanSupplierFromFilename(fileLabel);
+  if (fromPdfName && fromPdfName.length > 2) return fromPdfName;
+
+  const { supplier } = parseFilenameMeta(fileLabel);
+  if (supplier && supplier.length > 2 && !/^(audit|report|מבדק|דוח)/i.test(supplier)) {
+    return supplier;
+  }
+
+  return fileLabel.replace(/\s*\(\d+\)(?=\.[^.]+$)/, '').replace(/\.[^.]+$/, '').trim() || sourceFile;
+}
+
+/**
+ * Summarize all suppliers by name (legacy — may merge multiple files).
+ */
+function summarizeAll(findings, config = loadScoringConfig()) {
+  const bySupplier = new Map();
+  for (const f of findings) {
+    const k = f.supplier || 'לא ידוע';
+    if (!bySupplier.has(k)) bySupplier.set(k, []);
+    bySupplier.get(k).push(f);
+  }
+
+  const summaries = [];
+  for (const [name, list] of bySupplier) {
+    summaries.push(summarizeSupplier(name, list, config));
+  }
+  summaries.sort((a, b) => b.score - a.score || a.supplier.localeCompare(b.supplier, 'he'));
+  return summaries;
+}
+
+
+// --- js/report.js ---
+'use strict';
+
+/**
+ * Generate executive summary report (rule-based, no AI).
+ */
+function buildExecutiveReport(summaries, allFindings) {
+  const totalSuppliers = summaries.length;
+  const ratingCounts = { excellent: 0, good: 0, average: 0, weak: 0 };
+  for (const s of summaries) {
+    ratingCounts[s.rating.key]++;
+  }
+
+  const categoryTotals = {};
+  const categorySuppliers = {};
+
+  for (const f of allFindings) {
+    if (f.severity !== 'major') continue;
+    categoryTotals[f.category] = (categoryTotals[f.category] || 0) + 1;
+    if (!categorySuppliers[f.category]) categorySuppliers[f.category] = new Set();
+    categorySuppliers[f.category].add(f.supplier);
+  }
+
+  const topCategories = Object.entries(categoryTotals)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
+  const crossCutting = topCategories
+    .filter(([cat]) => (categorySuppliers[cat]?.size || 0) >= 2)
+    .map(([cat, count]) => ({
+      category: cat,
+      count,
+      supplierCount: categorySuppliers[cat].size,
+      suppliers: [...categorySuppliers[cat]],
+    }));
+
+  const urgent = summaries.filter(s => s.majorCount >= 3 || s.score < 55);
+
+  const totalMajor = allFindings.filter(f => f.severity === 'major').length;
+  const totalMinor = allFindings.filter(f => f.severity === 'minor').length;
+
+  const paragraphs = [];
+
+  paragraphs.push(
+    `נותחו ${totalSuppliers} ספקים עם סך של ${totalMajor} ממצאי Major ו-${totalMinor} ממצאי Minor. ` +
+    `התפלגות הדירוגים: ${ratingCounts.excellent} מצוין, ${ratingCounts.good} טוב, ` +
+    `${ratingCounts.average} בינוני, ${ratingCounts.weak} חלש.`
+  );
+
+  if (topCategories.length) {
+    const top3 = topCategories.slice(0, 3).map(([c, n]) => `${c} (${n})`).join(', ');
+    paragraphs.push(`שלוש קטגוריות הבעיות המרכזיות: ${top3}.`);
+  }
+
+  if (crossCutting.length) {
+    const cross = crossCutting.map(c =>
+      `${c.category} — ${c.count} ממצאים אצל ${c.supplierCount} ספקים`
+    ).join('; ');
+    paragraphs.push(`בעיות חוצות-ספקים (2+ ספקים): ${cross}.`);
+  } else if (topCategories.length) {
+    paragraphs.push('לא זוהו קטגוריות Major שחוזרות אצל יותר מספק אחד — הממצאים מפוזרים.');
+  }
+
+  if (urgent.length) {
+    const names = urgent.map(s => `${s.supplier} (ציון ${s.score}, ${s.majorCount} Major)`).join(', ');
+    paragraphs.push(`ספקים הדורשים טיפול מיידי: ${names}.`);
+  } else {
+    paragraphs.push('אין ספקים במצב קריטי (Major ≥ 3 או ציון מתחת ל-55).');
+  }
+
+  const avgScore = totalSuppliers
+    ? Math.round(summaries.reduce((a, s) => a + s.score, 0) / totalSuppliers)
+    : 0;
+  paragraphs.push(`ציון ממוצע כולל: ${avgScore}. מומלץ להתמקד בשיפור קטגוריות Major החוזרות ולעקוב אחר ספקים בדירוג חלש או בינוני.`);
+
+  return {
+    paragraphs,
+    ratingCounts,
+    topCategories,
+    crossCutting,
+    urgent,
+    totalMajor,
+    totalMinor,
+    avgScore,
+    categoryTotals,
+  };
+}
+
+function renderExecutiveHtml(report) {
+  let html = '';
+
+  html += '<h3>סיכום כללי</h3>';
+  for (const p of report.paragraphs) {
+    html += `<p>${htmlEscape(p)}</p>`;
+  }
+
+  if (report.crossCutting.length) {
+    html += '<h3>בעיות מרכזיות חוצות-ספקים</h3><ul>';
+    for (const c of report.crossCutting) {
+      html += `<li><strong>${htmlEscape(c.category)}</strong>: ${c.count} ממצאי Major אצל ${c.supplierCount} ספקים (${htmlEscape(c.suppliers.join(', '))})</li>`;
+    }
+    html += '</ul>';
+  }
+
+  if (report.topCategories.length) {
+    html += '<h3>פילוח לפי סוג בעיה (Major)</h3><ul>';
+    for (const [cat, n] of report.topCategories) {
+      html += `<li>${htmlEscape(cat)}: ${n}</li>`;
+    }
+    html += '</ul>';
+  }
+
+  return html;
+}
+
+/** Full HTML block for one supplier / one file. */
+function renderSupplierDetailHtml(s, index) {
+  let html = `<div class="sup-block">`;
+  html += `<h2>${index}. ${htmlEscape(s.supplier)}</h2>`;
+  html += `<p class="meta">קובץ: ${htmlEscape(s.sourceFileLabel || '')} · תאריך: ${htmlEscape(s.auditDate || '—')} · ציון: ${s.score} (${htmlEscape(s.rating.label)}) · Major: ${s.majorCount} · Minor: ${s.minorCount}</p>`;
+
+  if (s.improveAreas.length) {
+    html += '<h3>במה לשפר</h3><ul>';
+    for (const a of s.improveAreas) {
+      html += `<li><strong>${htmlEscape(a.category)}</strong> — ${a.count} ממצאי Major</li>`;
+    }
+    html += '</ul>';
+  }
+
+  if (s.majors.length) {
+    html += `<h3>ממצאי Major (${s.majorCount})</h3><ul>`;
+    for (const f of s.majors) {
+      const q = f.questionId ? `[${htmlEscape(f.questionId)}] ${htmlEscape(f.questionText)} — ` : '';
+      html += `<li class="major">${q}${htmlEscape(f.findingText)}</li>`;
+    }
+    html += '</ul>';
+  }
+
+  if (s.minors.length) {
+    html += `<h3>ממצאי Minor (${s.minorCount})</h3><ul>`;
+    for (const f of s.minors) {
+      const q = f.questionId ? `[${htmlEscape(f.questionId)}] ${htmlEscape(f.questionText)} — ` : '';
+      html += `<li class="minor">${q}${htmlEscape(f.findingText)}</li>`;
+    }
+    html += '</ul>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function htmlEscape(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+
+// --- js/ui.js ---
+'use strict';
+
+let categoryChart = null;
+let ratingsChart = null;
+let lastSummaries = [];
+let lastFindings = [];
+
+const PAGE_META = {
+  dashboard: { title: 'דשבורד', sub: 'סקירה כללית של כל הספקים' },
+  detail: { title: 'פרוט ספקים', sub: 'פירוט מלא לכל מבדק' },
+  compare: { title: 'טבלת השוואה', sub: 'השוואה מלאה — ממוין לפי ציון' },
+  summary: { title: 'סיכום מנהלים', sub: 'בעיות חוצות-ספקים והמלצות' },
+  files: { title: 'קבצים', sub: 'יומן ניתוח קבצים' },
+};
+
+function showToast(msg, type = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type}`;
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 3200);
+}
+
+function renderFileList(files) {
+  const wrap = document.getElementById('fileListWrap');
+  const ul = document.getElementById('fileList');
+  ul.innerHTML = '';
+  for (const f of files) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${escapeHtml(f.path || f.name)}</span><span class="ext">${f.ext}</span>`;
+    ul.appendChild(li);
+  }
+  wrap.classList.remove('hidden');
+}
+
+function updateSidebarMeta(summaries) {
+  const el = document.getElementById('appMeta');
+  if (!el) return;
+  el.textContent = summaries.length ? `${summaries.length} ספקים` : '—';
+}
+
+function kpiStats(summaries, allFindings) {
+  const totalMajor = allFindings.filter(f => f.severity === 'major').length;
+  const totalMinor = allFindings.filter(f => f.severity === 'minor').length;
+  const avg = summaries.length
+    ? Math.round(summaries.reduce((a, s) => a + s.score, 0) / summaries.length)
+    : 0;
+  return { totalMajor, totalMinor, avg };
+}
+
+function kpiCard(v, l, icon, color) {
+  return `<div class="kpi-card">
+    <div class="kpi-icon ${color}">${icon}</div>
+    <div><div class="kpi-v">${v}</div><div class="kpi-l">${escapeHtml(l)}</div></div>
+  </div>`;
+}
+
+function renderKpis(summaries, allFindings) {
+  const { totalMajor, totalMinor, avg } = kpiStats(summaries, allFindings);
+  const html = [
+    kpiCard(summaries.length, 'ספקים', '👥', 'blue'),
+    kpiCard(totalMajor, 'Major כולל', '⚠', 'yellow'),
+    kpiCard(totalMinor, 'Minor כולל', 'ℹ', 'green'),
+    kpiCard(avg, 'ציון ממוצע', '★', 'red'),
+  ].join('');
+
+  for (const id of ['kpiGrid', 'kpiGridCompare']) {
+    const grid = document.getElementById(id);
+    if (grid) grid.innerHTML = html;
+  }
+}
+
+function renderRankList(summaries) {
+  const el = document.getElementById('rankList');
+  if (!el) return;
+  if (!summaries.length) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:0.86rem">אין נתונים</p>';
+    return;
+  }
+
+  el.innerHTML = summaries.map((s, i) => {
+    const pct = Math.max(0, Math.min(100, s.score));
+    return `<div class="rank-row">
+      <span class="rank-num ${i < 3 ? 'top' : ''}">${i + 1}</span>
+      <span class="rank-name" title="${escapeHtml(s.supplier)}">${escapeHtml(s.supplier)}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%"></div></div>
+      <span class="rank-score">${s.score}</span>
+      <span class="badge ${s.rating.badge}">${escapeHtml(s.rating.label)}</span>
+    </div>`;
+  }).join('');
+}
+
+function supplierCell(s) {
+  return `<td class="col-supplier">
+    <strong class="supplier-name">${escapeHtml(s.supplier)}</strong>
+  </td>`;
+}
+
+function buildCompareRow(s, i, compact) {
+  if (compact) {
+    return `<tr>
+      ${supplierCell(s)}
+      <td>${i + 1}</td>
+      <td><span class="badge b-major">${s.majorCount}</span></td>
+      <td><span class="badge b-minor">${s.minorCount}</span></td>
+      <td><strong>${s.score}</strong></td>
+      <td><span class="badge ${s.rating.badge}">${escapeHtml(s.rating.label)}</span></td>
+    </tr>`;
+  }
+  return `<tr>
+    ${supplierCell(s)}
+    <td>${i + 1}</td>
+    <td>${escapeHtml(s.auditDate || '—')}</td>
+    <td><span class="badge b-major">${s.majorCount}</span></td>
+    <td><span class="badge b-minor">${s.minorCount}</span></td>
+    <td>${s.totalCount}</td>
+    <td><strong>${s.score}</strong></td>
+    <td><span class="badge ${s.rating.badge}">${escapeHtml(s.rating.label)}</span></td>
+    <td class="col-file" title="${escapeHtml(s.sourceFileLabel || '')}">${escapeHtml(s.sourceFileLabel || '')}</td>
+  </tr>`;
+}
+
+function renderCompareTable(summaries) {
+  renderTableBody('#compareTable tbody', summaries, false, 9);
+  renderTableBody('#compareTableDash tbody', summaries, true, 6);
+}
+
+function renderTableBody(selector, summaries, compact, colspan) {
+  const tbody = document.querySelector(selector);
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  if (!summaries.length) {
+    tbody.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;color:var(--muted)">אין נתונים</td></tr>`;
+    return;
+  }
+  summaries.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = buildCompareRow(s, i, compact);
+    tbody.appendChild(tr);
+  });
+}
+
+function renderSupplierCards(summaries) {
+  const container = document.getElementById('supplierCards');
+  container.innerHTML = '';
+
+  summaries.forEach((s, idx) => {
+    const card = document.createElement('div');
+    card.className = 'sup-card';
+
+    const improveHtml = s.improveAreas.length
+      ? `<ul class="improve-list">${s.improveAreas.map(a =>
+          `<li><strong>${escapeHtml(a.category)}</strong> — ${a.count} ממצאי Major</li>`
+        ).join('')}</ul>`
+      : '<p class="improve-list">אין תחומי שיפור Major מזוהים.</p>';
+
+    const majorsHtml = s.majors.length
+      ? s.majors.map(f => findingItem(f)).join('')
+      : '<p style="color:var(--muted);font-size:0.86rem">אין ממצאי Major</p>';
+
+    const minorsHtml = s.minors.map(f => findingItem(f)).join('');
+
+    card.innerHTML = `
+      <div class="sup-hdr" data-toggle>
+        <div>
+          <div class="sup-name">
+            <span class="sup-index">${idx + 1}/${summaries.length}</span>
+            ${escapeHtml(s.supplier)}
+          </div>
+          <div class="sup-file">📄 ${escapeHtml(s.sourceFileLabel || '')}</div>
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:0.1rem">תאריך מבדק: ${escapeHtml(s.auditDate || '—')}</div>
+        </div>
+        <div class="sup-meta">
+          <span class="badge b-major">${s.majorCount} Major</span>
+          <span class="badge b-minor">${s.minorCount} Minor</span>
+          <span class="badge ${s.rating.badge}">${escapeHtml(s.rating.label)} (${s.score})</span>
+          <span style="color:var(--muted)">▼</span>
+        </div>
+      </div>
+      <div class="sup-body open">
+        <div class="sup-stats">
+          <span>ציון: <strong>${s.score}</strong></span>
+          <span>דירוג: <strong>${escapeHtml(s.rating.label)}</strong></span>
+          <span>סה"כ ממצאים: <strong>${s.totalCount}</strong></span>
+        </div>
+        <h4 style="font-size:0.88rem;margin-bottom:0.45rem">ממצאי Major (${s.majorCount})</h4>
+        ${majorsHtml}
+        <h4 style="font-size:0.88rem;margin:0.85rem 0 0.45rem">במה לשפר</h4>
+        ${improveHtml}
+        ${s.minors.length ? `
+          <h4 style="font-size:0.88rem;margin:0.85rem 0 0.45rem">ממצאי Minor (${s.minorCount})</h4>
+          <div class="minor-list open">${minorsHtml}</div>
+        ` : ''}
+      </div>
+    `;
+
+    card.querySelector('[data-toggle]').addEventListener('click', () => {
+      card.querySelector('.sup-body').classList.toggle('open');
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function findingItem(f) {
+  const q = f.questionId
+    ? `[${escapeHtml(f.questionId)}] ${escapeHtml(f.questionText)}`
+    : escapeHtml(f.questionText);
+  return `
+    <div class="finding-item">
+      ${q ? `<div class="finding-q">${q}</div>` : ''}
+      <div class="finding-t">${escapeHtml(f.findingText)}</div>
+      <span class="badge ${f.severity === 'major' ? 'b-major' : 'b-minor'}" style="margin-top:0.2rem">${f.severity === 'major' ? 'Major' : 'Minor'}</span>
+      ${f.category ? `<span style="font-size:0.73rem;color:var(--muted);margin-right:0.45rem">${escapeHtml(f.category)}</span>` : ''}
+    </div>
+  `;
+}
+
+function renderExecutive(summaries, allFindings) {
+  lastSummaries = summaries;
+  lastFindings = allFindings;
+  const report = buildExecutiveReport(summaries, allFindings);
+  const el = document.getElementById('executiveReport');
+  if (el) el.innerHTML = renderExecutiveHtml(report);
+  renderCharts(report, summaries);
+  return report;
+}
+
+function renderCharts(report, summaries) {
+  if (categoryChart) categoryChart.destroy();
+  if (ratingsChart) ratingsChart.destroy();
+
+  const catLabels = report.topCategories.map(([c]) => c);
+  const catData = report.topCategories.map(([, n]) => n);
+
+  const ctx1 = document.getElementById('chartCategories');
+  if (ctx1 && catLabels.length) {
+    categoryChart = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: catLabels,
+        datasets: [{
+          label: 'Major',
+          data: catData,
+          backgroundColor: '#e6b42288',
+          borderColor: '#e6b422',
+          borderWidth: 1,
+          borderRadius: 4,
+        }],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#8494a7' }, grid: { color: '#2a3544' } },
+          y: { ticks: { color: '#e8edf4', font: { size: 11 } }, grid: { color: '#2a3544' } },
+        },
+      },
+    });
+  }
+
+  const ctx2 = document.getElementById('chartRatings');
+  if (ctx2) {
+    ratingsChart = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['מצוין', 'טוב', 'בינוני', 'חלש'],
+        datasets: [{
+          data: [
+            report.ratingCounts.excellent,
+            report.ratingCounts.good,
+            report.ratingCounts.average,
+            report.ratingCounts.weak,
+          ],
+          backgroundColor: ['#3ecf8e', '#4d9fff', '#e6b422', '#f05d5e'],
+          borderWidth: 0,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '62%',
+        plugins: { legend: { position: 'bottom', labels: { color: '#e8edf4', padding: 12, font: { size: 11 } } } },
+      },
+    });
+  }
+}
+
+function renderParseLog(logs, targetId = 'parseLog') {
+  const ul = document.getElementById(targetId);
+  if (!ul) return;
+  ul.innerHTML = '';
+  for (const entry of logs) {
+    const li = document.createElement('li');
+    const cls = entry.err ? 'err' : entry.ok ? 'ok' : 'warn';
+    li.innerHTML = `<span>${escapeHtml(entry.file)}</span><span class="${cls}">${escapeHtml(entry.msg)}</span>`;
+    ul.appendChild(li);
+  }
+}
+
+function showParseFailure(logs) {
+  const wrap = document.getElementById('parseErrorWrap');
+  if (wrap) wrap.classList.remove('hidden');
+  renderParseLog(logs, 'parseErrorLog');
+}
+
+function hideParseFailure() {
+  const wrap = document.getElementById('parseErrorWrap');
+  if (wrap) wrap.classList.add('hidden');
+}
+
+function switchToTab(tabName) {
+  document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+  document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
+  const paneId = `tab${capitalize(tabName)}`;
+  const pane = document.getElementById(paneId);
+  if (pane) pane.classList.add('active');
+
+  const meta = PAGE_META[tabName];
+  if (meta) {
+    const title = document.getElementById('pageTitle');
+    const sub = document.getElementById('pageSub');
+    if (title) title.textContent = meta.title;
+    if (sub) sub.textContent = meta.sub;
+  }
+}
+
+function exportHtmlReport() {
+  if (!lastSummaries.length) return;
+
+  const supplierSections = lastSummaries
+    .map((s, i) => renderSupplierDetailHtml(s, i + 1))
+    .join('');
+
+  const report = buildExecutiveReport(lastSummaries, lastFindings);
+  const executive = renderExecutiveHtml(report);
+  const table = document.querySelector('#compareTable')?.outerHTML || '';
+
+  const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><title>דוח מבדקי ספקים</title>
+<style>
+body{font-family:Arial,sans-serif;direction:rtl;padding:2rem;line-height:1.6;max-width:900px;margin:0 auto}
+h1{color:#1a365d}h2{color:#2563eb;margin-top:2rem;border-top:2px solid #ddd;padding-top:1rem}
+h3{color:#333;margin-top:1rem}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ccc;padding:0.5rem;text-align:right}th{background:#eee}
+.major{color:#b45309;font-weight:bold}.minor{color:#2563eb}.meta{color:#666;font-size:0.9rem}
+ul{padding-right:1.25rem}li{margin-bottom:0.35rem}
+.sup-block{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid #ddd}
+</style></head><body>
+<h1>דוח מבדקי הסמכה — ספקים</h1>
+<p class="meta">נוצר: ${new Date().toLocaleDateString('he-IL')} · ${lastSummaries.length} ספקים</p>
+
+<h2>פרוט לפי ספק</h2>
+${supplierSections}
+
+<h2>טבלת השוואה</h2>
+${table}
+
+<h2>סיכום מנהלים</h2>
+${executive}
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `supplier-audit-report-${new Date().toISOString().slice(0, 10)}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function setupTabs() {
+  document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => switchToTab(btn.dataset.tab));
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.addEventListener('click', () => switchToTab(btn.dataset.goto));
+  });
+}
+
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+
+// --- js/main.js ---
+'use strict';
+
+const state = {
+  files: [],
+  findings: [],
+  summaries: [],
+  parseLogs: [],
+};
+
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+  setupTabs();
+  loadSettingsToForm();
+  bindEvents();
+}
+
+function bindEvents() {
+  document.getElementById('btnPickFolder').addEventListener('click', onPickFolder);
+  document.getElementById('fileInputFallback').addEventListener('change', onFilesFallback);
+  document.getElementById('folderInputFallback').addEventListener('change', onFilesFallback);
+  document.getElementById('btnAnalyze').addEventListener('click', onAnalyze);
+  document.getElementById('btnReset').addEventListener('click', onReset);
+  document.getElementById('btnSettings').addEventListener('click', () => toggleSettings('settingsPanel'));
+  document.getElementById('btnSettingsApp').addEventListener('click', () => toggleSettings('settingsPanelApp'));
+  document.getElementById('btnSaveSettings').addEventListener('click', onSaveSettings);
+  document.getElementById('btnSaveSettingsApp').addEventListener('click', onSaveSettings);
+  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  document.getElementById('btnExportHtml').addEventListener('click', exportHtmlReport);
+
+  const dropZone = document.getElementById('dropZone');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
+  dropZone.addEventListener('drop', async e => {
+    e.preventDefault();
+    dropZone.classList.remove('over');
+    const items = e.dataTransfer?.items;
+    if (items) {
+      const files = await collectDroppedFiles(items);
+      if (files.length) await setFiles(files);
+    }
+  });
+}
+
+async function onPickFolder() {
+  try {
+    const files = await pickFolder();
+    await setFiles(files);
+  } catch (err) {
+    if (err.message === 'FOLDER_API_UNAVAILABLE') {
+      showToast('הדפדפן לא תומך בבחירת תיקייה — השתמש ב-fallback', 'err');
+    } else if (err.name !== 'AbortError') {
+      showToast(`שגיאה: ${err.message}`, 'err');
+    }
+  }
+}
+
+async function onFilesFallback(e) {
+  const list = e.target.files;
+  if (!list?.length) return;
+  const files = await filesFromInput(list);
+  await setFiles(files);
+}
+
+async function collectDroppedFiles(items) {
+  const files = [];
+  async function walkEntry(entry, path = '') {
+    if (entry.isFile) {
+      await new Promise(resolve => {
+        entry.file(async file => {
+          const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+          if (['.xlsx', '.xls', '.csv', '.docx', '.pdf'].includes(ext)) {
+            const rel = path ? `${path}/${file.name}` : file.name;
+            const parts = rel.split('/');
+            files.push({
+              name: file.name,
+              path: rel,
+              ext,
+              buffer: await file.arrayBuffer(),
+              folderSupplier: parts.length > 1 ? parts[parts.length - 2] : null,
+            });
+          }
+          resolve();
+        });
+      });
+    } else if (entry.isDirectory) {
+      const reader = entry.createReader();
+      await new Promise(resolve => {
+        reader.readEntries(async entries => {
+          for (const ent of entries) {
+            await walkEntry(ent, path ? `${path}/${entry.name}` : entry.name);
+          }
+          resolve();
+        });
+      });
+    }
+  }
+
+  for (const item of items) {
+    const entry = item.webkitGetAsEntry?.();
+    if (entry) await walkEntry(entry);
+  }
+  return files;
+}
+
+async function setFiles(files) {
+  if (!files.length) {
+    showToast('לא נמצאו קבצים נתמכים', 'err');
+    return;
+  }
+  state.files = files;
+  hideParseFailure();
+  renderFileList(files);
+  showToast(`נמצאו ${files.length} קבצים — מריץ ניתוח...`, 'ok');
+  await onAnalyze();
+}
+
+async function onAnalyze() {
+  if (!state.files.length) {
+    showToast('בחר תיקייה תחילה', 'err');
+    return;
+  }
+
+  showToast('מנתח...', 'ok');
+  const allFindings = [];
+  const logs = [];
+
+  for (const file of state.files) {
+    const folderMeta = { supplier: file.folderSupplier };
+    try {
+      const result = await parseFile(file, folderMeta);
+      allFindings.push(...result.findings);
+      const warnNote = result.warnings?.length ? ` · ${result.warnings[0]}` : '';
+      logs.push({
+        file: file.path,
+        msg: `${result.findings.length} ממצאים${warnNote}`,
+        ok: result.findings.length > 0,
+        warn: result.findings.length === 0,
+      });
+    } catch (err) {
+      logs.push({ file: file.path, msg: err.message, err: true });
+    }
+  }
+
+  if (!allFindings.length) {
+    showToast('לא נמצאו ממצאים בקבצים — ראה פירוט למטה', 'err');
+    state.parseLogs = logs;
+    document.getElementById('sectionUpload').classList.add('hidden');
+    document.getElementById('sectionApp').classList.remove('hidden');
+    renderParseLog(logs);
+    showParseFailure(logs);
+    switchToTab('files');
+    return;
+  }
+
+  hideParseFailure();
+
+  const config = loadScoringConfig();
+  const summaries = summarizeBySourceFile(allFindings, config);
+
+  state.findings = allFindings;
+  state.summaries = summaries;
+  state.parseLogs = logs;
+
+  renderResults(summaries, allFindings, logs);
+  showToast(`הניתוח הושלם — ${summaries.length} ספקים`, 'ok');
+}
+
+async function parseFile(file, folderMeta) {
+  const meta = { ...folderMeta, sourceFile: file.path || file.name };
+  switch (file.ext) {
+    case '.xlsx':
+    case '.xls':
+      return parseExcelBuffer(file.buffer, file.name, meta);
+    case '.csv': {
+      const text = decodeCsvBuffer(file.buffer);
+      return parseCsvText(text, file.name, meta);
+    }
+    case '.docx':
+      return parseWordBuffer(file.buffer, file.name, meta);
+    case '.pdf':
+      return parsePdfBuffer(file.buffer, file.name, meta);
+    default:
+      throw new Error(`פורמט לא נתמך: ${file.ext}`);
+  }
+}
+
+function renderResults(summaries, allFindings, logs) {
+  document.getElementById('sectionUpload').classList.add('hidden');
+  document.getElementById('sectionApp').classList.remove('hidden');
+
+  updateSidebarMeta(summaries);
+  renderKpis(summaries, allFindings);
+  renderRankList(summaries);
+  renderCompareTable(summaries);
+  renderSupplierCards(summaries);
+  renderExecutive(summaries, allFindings);
+  renderParseLog(logs);
+  switchToTab('dashboard');
+}
+
+function onReset() {
+  state.files = [];
+  state.findings = [];
+  state.summaries = [];
+  state.parseLogs = [];
+  document.getElementById('sectionApp').classList.add('hidden');
+  document.getElementById('sectionUpload').classList.remove('hidden');
+  document.getElementById('fileListWrap').classList.add('hidden');
+  hideParseFailure();
+}
+
+function toggleSettings(panelId) {
+  document.getElementById(panelId)?.classList.toggle('hidden');
+}
+
+function loadSettingsToForm() {
+  const cfg = loadScoringConfig();
+  syncSettingsForm(cfg);
+}
+
+function syncSettingsForm(cfg) {
+  const map = {
+    cfgBase: cfg.baseScore,
+    cfgMajor: cfg.majorPenalty,
+    cfgMinor: cfg.minorPenalty,
+    cfgExcellent: cfg.excellentMin,
+    cfgGood: cfg.goodMin,
+    cfgAverage: cfg.averageMin,
+  };
+  for (const [id, val] of Object.entries(map)) {
+    document.getElementById(id).value = val;
+    document.getElementById(`${id}App`).value = val;
+  }
+}
+
+function readSettingsFromForm() {
+  const appMode = !document.getElementById('sectionApp').classList.contains('hidden');
+  const id = (base) => appMode ? `${base}App` : base;
+  return {
+    baseScore: numVal(id('cfgBase'), 100),
+    majorPenalty: numVal(id('cfgMajor'), 10),
+    minorPenalty: numVal(id('cfgMinor'), 3),
+    excellentMin: numVal(id('cfgExcellent'), 90),
+    goodMin: numVal(id('cfgGood'), 75),
+    averageMin: numVal(id('cfgAverage'), 55),
+  };
+}
+
+function onSaveSettings() {
+  const cfg = readSettingsFromForm();
+  saveScoringConfig(cfg);
+  syncSettingsForm(cfg);
+  document.getElementById('settingsPanel')?.classList.add('hidden');
+  document.getElementById('settingsPanelApp')?.classList.add('hidden');
+  showToast('הגדרות נשמרו', 'ok');
+  if (state.findings.length) {
+    const summaries = summarizeBySourceFile(state.findings, cfg);
+    state.summaries = summaries;
+    renderResults(summaries, state.findings, state.parseLogs);
+  }
+}
+
+function numVal(id, fallback) {
+  const v = parseInt(document.getElementById(id).value, 10);
+  return isNaN(v) ? fallback : v;
+}
+
+function decodeCsvBuffer(buffer) {
+  const utf8 = new TextDecoder('utf-8', { fatal: false }).decode(buffer);
+  if (!utf8.includes('\uFFFD') && /[\u0590-\u05FF]/.test(utf8)) return utf8.replace(/^\uFEFF/, '');
+  if (!utf8.includes('\uFFFD')) return utf8.replace(/^\uFEFF/, '');
+
+  try {
+    const win = new TextDecoder('windows-1255').decode(buffer);
+    return win.replace(/^\uFEFF/, '');
+  } catch (_) {
+    return utf8.replace(/^\uFEFF/, '');
+  }
+}
+
+</script>
+</body>
+</html>

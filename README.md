@@ -4,6 +4,17 @@
 
 ## שימוש
 
+### קובץ יחיד (מומלץ לשיתוף)
+
+פתח **`standalone.html`** ישירות ב-Chrome או Edge — הכל מוטמע בקובץ אחד (CSS + JS).
+
+ליצירה מחדש מהמקור:
+```bash
+node scripts/build-single.mjs
+```
+
+### מצב פיתוח (קבצים נפרדים)
+
 1. שים את קבצי המבדק בתיקייה אחת (או בתת-תיקיות לפי ספק).
 2. **מומלץ:** הרץ `start-server.bat` ופתח http://localhost:8765 (עובד אמין יותר מפתיחה ישירה של index.html).
 3. לחץ **בחר תיקייה** ובחר את התיקייה (לדוגמה `samples`).
@@ -84,8 +95,11 @@
 
 ```
 Suppliers/
-├── index.html
+├── standalone.html      ← קובץ יחיד (פתח ישירות בדפדפן)
+├── index.html           ← מצב פיתוח (קבצים נפרדים)
 ├── style.css
+├── scripts/
+│   └── build-single.mjs ← בונה את standalone.html
 ├── js/
 │   ├── main.js
 │   ├── folder.js
