@@ -35,7 +35,27 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
   setupTabs();
   loadSettingsToForm();
+  adaptToDevice();
   bindEvents();
+}
+
+function adaptToDevice() {
+  const hasDirectoryPicker = !!window.showDirectoryPicker;
+  const isMobile = navigator.maxTouchPoints > 1 || window.matchMedia('(pointer: coarse)').matches;
+
+  const btnPickFolder = document.getElementById('btnPickFolder');
+  const folderFallbackLabel = document.getElementById('folderInputFallback')?.closest('label');
+  const upSub = document.querySelector('.up-sub');
+  const upTitle = document.querySelector('.up-title');
+
+  if (isMobile) {
+    btnPickFolder.style.display = 'none';
+    if (folderFallbackLabel) folderFallbackLabel.style.display = 'none';
+    if (upTitle) upTitle.textContent = 'בחר קבצי מבדק';
+    if (upSub) upSub.innerHTML = 'לחץ <strong>בחר קבצים</strong> ובחר את קבצי המבדק<br><span style="font-size:0.82em;opacity:.75">(Excel · CSV · Word · PDF — ניתן לבחור מספר קבצים)</span>';
+  } else if (!hasDirectoryPicker) {
+    btnPickFolder.style.display = 'none';
+  }
 }
 
 function bindEvents() {
